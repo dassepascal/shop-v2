@@ -1,3 +1,15 @@
 Mail
 
 php artisan make:mail ContactMail --markdown=emails.contact
+
+
+Test
+install Pest
+
+plugin : laravel
+
+dans le fichier phpunit.xml -> decocher
+ <env name="DB_CONNECTION" value="sqlite"/>
+         <env name="DB_DATABASE" value=":memory:"/>
+
+         
