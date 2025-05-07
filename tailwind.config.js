@@ -7,7 +7,8 @@ export default {
 		 './storage/framework/views/*.php',
 		 './resources/**/*.blade.php',
 		 './resources/**/*.js',
-		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
+         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
 	],
     safelist: [
         'bg-red-400',
