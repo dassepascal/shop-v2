@@ -1,0 +1,3 @@
+Mail
+
+php artisan make:mail ContactMail --markdown=emails.contact
