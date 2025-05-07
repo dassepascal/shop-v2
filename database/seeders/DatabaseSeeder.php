@@ -78,23 +78,25 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()
-          ->count(20)
-          ->create()
-          ->each(function ($user) {
-              $user->addresses()->createMany(
-                  Address::factory()->count(mt_rand(2, 3))->make()->toArray()
-              );
-        });
+            ->count(20)
+            ->create()
+            ->each(function ($user) {
+                $user->addresses()->createMany(
+                    Address::factory()->count(mt_rand(2, 3))->make()->toArray()
+                );
+            });
 
+        // Mettre à jour l'utilisateur administrateur
         $user = User::find(1);
-        $user->admin = true;
+        $user->role = 'admin';
+        $user->valid = true;
         $user->save();
 
         foreach ([
             ['name' => 'Montre', 'price' => 56, 'weight' => 0.3, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'montre.png', 'description' => 'Superbe montre de luxe automatique.', 'unique_id' => Str::random(10)],
             ['name' => 'Lunettes', 'price' => 75, 'weight' => 0.3, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'lunettes.png', 'description' => 'Superbe paire de lunettes de soleil.', 'unique_id' => Str::random(10)],
             ['name' => 'Noix', 'price' => 26, 'weight' => 1, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'noix.png', 'description' => 'Merveilleuses noix biologiques.', 'unique_id' => Str::random(10)],
-            ['name' => 'Pain', 'price' => 12, 'weight' => .5, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'pain.png', 'description' => 'Délicieux pain biologique.', 'unique_id' => Str::random(10)],
+            ['name' => 'Pain', 'price' => 12, 'weight' => 0.5, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'pain.png', 'description' => 'Délicieux pain biologique.', 'unique_id' => Str::random(10)],
             ['name' => 'Pc portable', 'price' => 450, 'weight' => 2, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'pc.png', 'description' => 'Superbe pc portable.', 'unique_id' => Str::random(10)],
             ['name' => 'Rollers', 'price' => 1500, 'weight' => 2.6, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'rollers.png', 'description' => 'Paire de rollers adaptés aux slaloms.', 'unique_id' => Str::random(10)],
         ] as $productData) {
@@ -134,48 +136,48 @@ class DatabaseSeeder extends Seeder
         }
 
         Order::factory()
-          ->count(100)
-          ->create()
-          ->each(function ($order) {
-              $address = $order->user->addresses()->take(1)->get()->makeHidden(['id', 'user_id'])->toArray();
-              $order->addresses()->create($address[0]);
-              if (mt_rand(0, 1)) {
-                  $address = $order->user->addresses()->skip(1)->take(1)->get()->makeHidden(['id', 'user_id'])->toArray();
-                  $address[0]['facturation'] = false;
-                  $order->addresses()->create($address[0]);
-              }
-              $countryId = $address[0]['country_id'];
-              $total = 0;
-              $product = Product::find(mt_rand(1, 3));
-              $quantity = mt_rand(1, 3);
-              $price = $product->price * $quantity;
-              $total = $price;
-              $order->products()->create(
-                  [
-                      'name' => $product->name,
-                      'total_price_gross' => $price,
-                      'quantity' => $quantity,
-                  ]
-              );
-              if (mt_rand(0, 1)) {
-                  $product = Product::find(mt_rand(4, 6));
-                  $quantity = mt_rand(1, 3);
-                  $price = $product->price * $quantity;
-                  $total += $price;
-                  $order->products()->create(
-                      [
-                          'name' => $product->name,
-                          'total_price_gross' => $price,
-                          'quantity' => $quantity,
-                      ]
-                  );
-              }
-              if ($order->payment === 'carte' && $order->state_id === 8) {
-                  $order->payment_infos()->create(['payment_id' => (string) Str::uuid()]);
-              }
-              $order->tax = $countryId > 2 ? 0 : .2;
-              $order->total = $total;
-              $order->save();
-          });
+            ->count(100)
+            ->create()
+            ->each(function ($order) {
+                $address = $order->user->addresses()->take(1)->get()->makeHidden(['id', 'user_id'])->toArray();
+                $order->addresses()->create($address[0]);
+                if (mt_rand(0, 1)) {
+                    $address = $order->user->addresses()->skip(1)->take(1)->get()->makeHidden(['id', 'user_id'])->toArray();
+                    $address[0]['facturation'] = false;
+                    $order->addresses()->create($address[0]);
+                }
+                $countryId = $address[0]['country_id'];
+                $total = 0;
+                $product = Product::find(mt_rand(1, 3));
+                $quantity = mt_rand(1, 3);
+                $price = $product->price * $quantity;
+                $total = $price;
+                $order->products()->create(
+                    [
+                        'name' => $product->name,
+                        'total_price_gross' => $price,
+                        'quantity' => $quantity,
+                    ]
+                );
+                if (mt_rand(0, 1)) {
+                    $product = Product::find(mt_rand(4, 6));
+                    $quantity = mt_rand(1, 3);
+                    $price = $product->price * $quantity;
+                    $total += $price;
+                    $order->products()->create(
+                        [
+                            'name' => $product->name,
+                            'total_price_gross' => $price,
+                            'quantity' => $quantity,
+                        ]
+                    );
+                }
+                if ($order->payment === 'carte' && $order->state_id === 8) {
+                    $order->payment_infos()->create(['payment_id' => (string) Str::uuid()]);
+                }
+                $order->tax = $countryId > 2 ? 0 : 0.2;
+                $order->total = $total;
+                $order->save();
+            });
     }
 }

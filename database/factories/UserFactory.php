@@ -29,6 +29,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail,
             'password' => static::$password ??= Hash::make('password'),
             'newsletter' => fake()->boolean(),
+            'valid' => fake()->boolean(), // Valeur aléatoire pour valid
+            'role' => fake()->randomElement(['user', 'redac', 'admin']), // Sélection aléatoire parmi les rôles
             'created_at' => fake()->dateTimeBetween('-4 years', '-6 months'),
             'remember_token' => Str::random(10),
         ];

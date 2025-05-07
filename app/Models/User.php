@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'firstname', 'email', 'password', 'newsletter',
+        'name', 'firstname', 'email', 'password', 'newsletter', 'valid', 'role',
     ];
 
     /**
@@ -47,22 +47,23 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'valid' => 'boolean',
+            'role' => 'string', // ENUM est traité comme string
         ];
     }
 
     public function addresses(): HasMany
-{
-    return $this->hasMany(Address::class);
-}
+    {
+        return $this->hasMany(Address::class);
+    }
 
-public function orders(): HasMany
-{
-    return $this->hasMany(Order::class);
-}
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 
-public function isAdmin(): bool
-{
-    return $this->admin ; // Remplacez 'is_admin' par le nom de la colonne dans votre table users
-}
-
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }

@@ -107,7 +107,7 @@ class extends Component {
         $weight = $items->sum(function ($item) {
             return $item->quantity * $item->model->weight;
         });
-        $range = Range::orderBy('max')->where('max', '>=', $weight)->first(); 
+        $range = Range::orderBy('max')->where('max', '>=', $weight)->first();
         return $range ? $range->countries()->where('countries.id', $address->country_id)->first()->pivot->price : false;
     }
 
@@ -115,7 +115,7 @@ class extends Component {
     {
         $country_delivery = $this->addresses->firstWhere('id', $this->selectedDeliveryAddress)->country;
         $this->tvaBase = Country::where('tax', '>', 0)->first()->tax;
-        $this->tax = $this->pick ? $this->tvaBase : $country_delivery->tax; 
+        $this->tax = $this->pick ? $this->tvaBase : $country_delivery->tax;
         $this->content = Cart::getContent();
         $this->total = $this->tax > 0 ? Cart::getTotal() : Cart::getTotal() / (1 + $this->tvaBase);
     }
@@ -149,7 +149,7 @@ class extends Component {
 
         // Enregistrement adresse de facturation
         $order->addresses()->create($address_facturation->toArray());
-        
+
         // Enregistrement éventuel adresse de livraison si différente
         if(!$this->sameAddress) {
             $address_livraison->facturation = false;
@@ -165,23 +165,23 @@ class extends Component {
                     'quantity' => $row->quantity,
                 ]
             );
-            $product = Product::findOrFail($row->id);         
+            $product = Product::findOrFail($row->id);
             $product->quantity -= $row->quantity;
             $product->save();
             if($product->quantity + $row->quantity > $product->quantity_alert && $product->quantity <= $product->quantity_alert) {
                 $admins = User::whereAdmin(true)->get();
                 foreach($admins as $admin) {
                     Mail::to($admin)->send(new ProductAlert($this->shop, $product));
-                }  
-            }               
+                }
+            }
         }
 
         // On vide le panier et la session
         Cart::clear();
-        Cart::session(Auth::user())->clear(); 
+        Cart::session(Auth::user())->clear();
 
         // Notification à l'administrateur
-        $admins = User::whereAdmin(true)->get();
+        $admins = User::where('role', 'admin')->get();
         foreach($admins as $admin) {
             //Mail::to($admin)->send(new NewOrder($this->shop, $order));
         }
@@ -240,7 +240,7 @@ class extends Component {
                     'quantity' => 1,
                     'tax_rates' => [],
                 ];
-            }            
+            }
 
             // Crée la session
             $checkout_session = CheckoutSession::create([
@@ -318,7 +318,7 @@ class extends Component {
                     </x-card>
                 </div>
                 <x-slot:actions>
-                    <x-button label="{{ trans('Manage my addresses') }}" class="btn-primary" link="{{ route('addresses') }}" /> 
+                    <x-button label="{{ trans('Manage my addresses') }}" class="btn-primary" link="{{ route('addresses') }}" />
                 </x-slot:actions>
             </x-card>
         @else
@@ -326,7 +326,7 @@ class extends Component {
                 <div class="grid grid-cols-1 gap-6 items-start md:grid-cols-2 lg:grid-cols-3">
                     @foreach ($addresses as $address)
                         <label class="inline-flex items-start">
-                            <x-card class="w-full ml-2 shadow-md shadow-gray-500 transition duration-300 {{ $selectedBillingAddress == $address->id ? 'bg-blue-100' : '' }}" title=" ">                         
+                            <x-card class="w-full ml-2 shadow-md shadow-gray-500 transition duration-300 {{ $selectedBillingAddress == $address->id ? 'bg-blue-100' : '' }}" title=" ">
                                 <input type="radio" class="form-radio" name="billingAddress" wire:model="selectedBillingAddress" value="{{ $address->id }}"  wire:change="$refresh">
                                 <span class="ml-2 font-bold">{{ ($pick || !$sameAddress) ? __('Billing') : __('Billing & Delivery') }}</span>
                                 <x-address :address="$address" />
@@ -356,16 +356,16 @@ class extends Component {
                             <x-button wire:click="toggleSameAddress" label="{{ $sameAddress ? trans('Use different delivery address') : trans('Use same address for billing and delivery') }}" class="btn-primary" />
                         @endif
                         <x-button label="{{ trans('Manage my addresses') }}" class="btn-primary" link="{{ route('addresses') }}" />
-                    </div>                                                   
+                    </div>
                 </x-slot:actions>
             </x-card>
         @endif
-    
-        <br>  
+
+        <br>
         <x-card class="w-full sm:min-w-[50vw]" title="{{ trans('Delivery mode') }}" shadow separator >
             <x-radio :options="$deliveryOptions" wire:model="selectedDeliveryOption" wire:change="$refresh" />
         </x-card>
-        <br>  
+        <br>
         <x-card class="w-full sm:min-w-[50vw]" title="{{ trans('Mode of payment') }}" shadow separator >
             <x-radio :options="$paymentOptions" wire:model="selectedPaymentOption" wire:change="$refresh" />
             <br>
@@ -373,10 +373,10 @@ class extends Component {
         </x-card>
         <br>
         <x-card x-data="{ isChecked: false }" class="w-full sm:min-w-[50vw]" title="{{ __('My order details') }}" shadow separator >
-            <x-details 
-                :content="$content" 
-                :shipping="$shipping" 
-                :tax="$tax" 
+            <x-details
+                :content="$content"
+                :shipping="$shipping"
+                :tax="$tax"
                 :total="$total"
                 :pick="$pick"
             />
