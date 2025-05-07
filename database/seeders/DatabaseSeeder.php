@@ -86,11 +86,19 @@ class DatabaseSeeder extends Seeder
                 );
             });
 
+
+
         // Mettre à jour l'utilisateur administrateur
         $user = User::find(1);
         $user->role = 'admin';
         $user->valid = true;
         $user->save();
+
+        $this->call([
+           
+            CategorySeeder::class,
+            PostSeeder::class,            
+        ]);
 
         foreach ([
             ['name' => 'Montre', 'price' => 56, 'weight' => 0.3, 'active' => true, 'quantity' => 100, 'quantity_alert' => 10, 'image' => 'montre.png', 'description' => 'Superbe montre de luxe automatique.', 'unique_id' => Str::random(10)],
