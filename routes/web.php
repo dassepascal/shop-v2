@@ -4,6 +4,12 @@ use Livewire\Volt\Volt;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
+
+Volt::route('/blog', 'blog.index')->name('blog.index');
+
+
+Volt::route('/blog/posts', 'posts.index')->name('posts.index');
+
 Volt::route('/', 'index')->name('home');
 Volt::route('/pages/{page:slug}', 'page')->name('pages');
 Volt::route('/products/{product}', 'product')->name('products.show');
