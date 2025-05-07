@@ -167,5 +167,6 @@ new class extends Component {
                 </span>
             </div>
         @endif
+        <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
     </x-slot:actions>
 </x-nav>
