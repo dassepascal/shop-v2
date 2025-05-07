@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Post;
 use App\Models\Order;
 use App\Models\Address;
 use Illuminate\Notifications\Notifiable;
@@ -66,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function posts(): HasMany
+	{
+		return $this->hasMany(Post::class);
+	}
 }
