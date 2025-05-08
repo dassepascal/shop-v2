@@ -95,10 +95,11 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         $this->call([
-           
+
             CategorySeeder::class,
-            PostSeeder::class,  
-            BlogPageSeeder::class,           
+            PostSeeder::class,
+            BlogPageSeeder::class,
+            MenusSeeder::class
         ]);
 
         foreach ([
