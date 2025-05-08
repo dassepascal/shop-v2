@@ -29,9 +29,9 @@ new class extends Component {
     {
         $postRepository = new PostRepository();
 
-        // if (!empty($this->param)) {
-        //     return $postRepository->search($this->param);
-        // }
+        if (!empty($this->param)) {
+            return $postRepository->search($this->param);
+        }
 
         return $postRepository->getPostsPaginate($this->category);
     }

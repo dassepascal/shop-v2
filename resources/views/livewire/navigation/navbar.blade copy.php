@@ -45,7 +45,7 @@ new class extends Component {
         $this->info(__('Item deleted.'), position: 'toast-bottom');
     }
 
-    #[On('cart-updated')] 
+    #[On('cart-updated')]
     public function updateCartItems()
     {
         $this->CartItems = Cart::getTotalQuantity();
@@ -73,7 +73,7 @@ new class extends Component {
         <x-dropdown>
             <x-slot:trigger>
                 <x-button label="{{ __('Cart') }}" icon="o-shopping-cart" badge="{{ $CartItems }}" badge-classes="badge-ghost" class="btn-ghost" />
-            </x-slot:trigger>                                 
+            </x-slot:trigger>
             <div class="p-2 text-black {{ $content->isNotEmpty()? 'min-w-[300px]' : '' }}">
                 @foreach ($content as $item)
                     <div class="flex justify-between mb-2">
@@ -88,14 +88,14 @@ new class extends Component {
                         <x-button icon="o-trash" wire:click="deleteItem({{ $item->id }})" class="text-red-500 btn-circle btn-ghost btn-sm" />
                     </div>
                     <hr><br>
-                @endforeach                
+                @endforeach
                 <br>
                 <div class="flex justify-between items-center mb-1">
                     <div class="font-bold">
                         @if($CartItems > 1)
                             @lang('Total of my') {{ $CartItems }} @lang('articles')
                         @else
-                            @lang('Total of my article') 
+                            @lang('Total of my article')
                         @endif
                     </div>
                     <div class="font-bold">{{ number_format($total, 2, ',', ' ') }} € TTC</div>
@@ -120,12 +120,12 @@ new class extends Component {
                         <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
                         <x-menu-item title="{{ __('My orders') }}" link="{{ route('orders') }}" />
                         <x-menu-item title="{{ __('RGPD') }}" link="{{ route('rgpd') }}" />
-                        <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />  
-                    </span>                  
+                        <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
+                    </span>
                 </x-dropdown>
             @else
                 <x-button label="{{ __('Login') }}" link="/login" class="btn-ghost" />
-            @endif
+                
         </span>
     </x-slot:actions>
 </x-nav>
