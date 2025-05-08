@@ -29,9 +29,7 @@ new class extends Component {
         {{-- Options spécifiques selon la page --}}
         @if ($this->isBlogPage())
             <x-menu-item title="{{ __('Articles') }}" icon="o-document-text" link="{{ route('blog.index') }}" />
-            @auth
-            <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="{{ route('posts.create') }}" />
-            @endauth
+          
             <x-menu-item title="{{ __('Search') }}" no-link no-hover class="my-2">
                 <livewire:search />
             </x-menu-item>

@@ -69,7 +69,7 @@ new class extends Component {
 
 
     </div>
-    <div class="relative grid items-center w-full py-5 mx-auto prose md:px-12 max-w-7xl mt-5">
+    <div class="relative grid items-center w-full py-5 mx-auto  md:px-12 max-w-7xl mt-5">
         @if ($category)
         <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
         @elseif($param !== '')

@@ -81,12 +81,7 @@ new class extends Component {
                     <x-menu-item title="{{ __('Articles') }}" link="{{ route('blog.index') }}"
                         class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
                 </x-menu>
-                @auth
-                <x-menu>
-                    <x-menu-item title="{{ __('Create a post') }}" link="{{ route('posts.create') }}"
-                        class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
-                </x-menu>
-                @endauth
+            
                 <x-menu>
                     <x-menu-item title="{{ __('Shop') }}" link="{{ route('home') }}"
                         class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
