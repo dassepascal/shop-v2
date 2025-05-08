@@ -1,8 +1,18 @@
 <?php
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
+use App\Models\Menu;
 
 new class extends Component {
+    public $menus;
+
+    public function mount(): void
+    {
+        $this->menus = Menu::with(['submenus' => function ($query) {
+            $query->orderBy('order');
+        }])->orderBy('order')->get();
+    }
+
     public function logout(): void
     {
         Auth::guard('web')->logout();
@@ -20,16 +30,36 @@ new class extends Component {
 
 <div class="h-full p-4 bg-base-100">
     <x-menu activate-by-route class="flex flex-col space-y-2">
-        {{-- Liens principaux --}}
+        <!-- Liens principaux -->
         <x-menu-item title="{{ __('Shop') }}" icon="o-home" link="{{ route('home') }}" />
         <x-menu-item title="{{ __('Blog') }}" icon="o-newspaper" link="{{ route('blog.index') }}" />
 
         <x-menu-separator />
 
-        {{-- Options spécifiques selon la page --}}
         @if ($this->isBlogPage())
+            <!-- Liens statiques -->
             <x-menu-item title="{{ __('Articles') }}" icon="o-document-text" link="{{ route('blog.index') }}" />
-          
+            <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
+            @auth
+                <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="{{ route('posts.create') }}" />
+            @endauth
+            <!-- Menus dynamiques -->
+            @forelse ($menus as $menu)
+                @if ($menu->submenus->isNotEmpty())
+                    <x-menu-item title="{{ $menu->label }}" icon="o-chevron-down" no-link class="font-bold">
+                        @forelse ($menu->submenus as $submenu)
+                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}"
+                                class="pl-6 text-sm hover:bg-gray-100" />
+                        @empty
+                            <x-menu-item title="{{ __('No submenus') }}" no-link class="pl-6 text-sm text-gray-500" />
+                        @endforelse
+                    </x-menu-item>
+                @else
+                    <x-menu-item title="{{ $menu->label }}" icon="o-link" link="{{ $menu->link ?? '#' }}" />
+                @endif
+            @empty
+                <x-menu-item title="{{ __('No menus') }}" no-link class="text-gray-500" />
+            @endforelse
             <x-menu-item title="{{ __('Search') }}" no-link no-hover class="my-2">
                 <livewire:search />
             </x-menu-item>
@@ -39,7 +69,6 @@ new class extends Component {
 
         <x-menu-separator />
 
-        {{-- Utilisateur --}}
         @if ($user = auth()->user())
             <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="-mx-2 !-my-2 rounded">
                 <x-slot:actions>
@@ -51,8 +80,8 @@ new class extends Component {
             <x-menu-item title="{{ __('My orders') }}" icon="o-shopping-cart" link="{{ route('order.index') }}" />
             <x-menu-item title="{{ __('RGPD') }}" icon="o-lock-closed" link="{{ route('rgpd') }}" />
             @if ($user->isAdmin())
-            <x-menu-separator />
-            <x-menu-item title="{{ __('Administration') }}" icon="o-cog" link="{{ route('admin') }}" />
+                <x-menu-separator />
+                <x-menu-item title="{{ __('Administration') }}" icon="o-cog" link="{{ route('admin') }}" />
             @endif
         @else
             <x-menu-item title="{{ __('Login') }}" icon="o-arrow-right-on-rectangle" link="/login" />
