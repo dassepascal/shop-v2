@@ -11,6 +11,8 @@ new class extends Component {
         $this->menus = Menu::with(['submenus' => function ($query) {
             $query->orderBy('order');
         }])->orderBy('order')->get();
+        // Débogage : Vérifier les menus chargés
+         \Log::info('Sidebar Menus: ' . json_encode($this->menus->toArray()));
     }
 
     public function logout(): void
@@ -45,20 +47,22 @@ new class extends Component {
             @endauth
             <!-- Menus dynamiques -->
             @forelse ($menus as $menu)
-                @if ($menu->submenus->isNotEmpty())
-                    <x-menu-item title="{{ $menu->label }}" icon="o-chevron-down" no-link class="font-bold">
-                        @forelse ($menu->submenus as $submenu)
-                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}"
-                                class="pl-6 text-sm hover:bg-gray-100" />
-                        @empty
-                            <x-menu-item title="{{ __('No submenus') }}" no-link class="pl-6 text-sm text-gray-500" />
-                        @endforelse
-                    </x-menu-item>
-                @else
-                    <x-menu-item title="{{ $menu->label }}" icon="o-link" link="{{ $menu->link ?? '#' }}" />
-                @endif
+                <div class="menu-item">
+                    @if ($menu->submenus->isNotEmpty())
+                        <x-menu-item title="{{ $menu->label }}" icon="o-chevron-down" no-link class="font-bold text-base">
+                            @forelse ($menu->submenus as $submenu)
+                                <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}"
+                                    class="pl-6 text-sm hover:bg-gray-100 transition-colors" />
+                            @empty
+                                <x-menu-item title="{{ __('No submenus available') }}" no-link class="pl-6 text-sm text-gray-500" />
+                            @endforelse
+                        </x-menu-item>
+                    @else
+                        <x-menu-item title="{{ $menu->label }}" icon="o-link" link="{{ $menu->link ?? '#' }}" class="text-base" />
+                    @endif
+                </div>
             @empty
-                <x-menu-item title="{{ __('No menus') }}" no-link class="text-gray-500" />
+                <x-menu-item title="{{ __('No menus available') }}" no-link class="text-gray-500" />
             @endforelse
             <x-menu-item title="{{ __('Search') }}" no-link no-hover class="my-2">
                 <livewire:search />
