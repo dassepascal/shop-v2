@@ -91,6 +91,7 @@ new class extends Component {
                     <x-menu-item title="{{ __('Shop') }}" link="{{ route('home') }}"
                         class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
                 </x-menu>
+                <livewire:search />
                 @if ($user = auth()->user())
                 <x-dropdown>
                     <x-slot:trigger>
@@ -112,7 +113,7 @@ new class extends Component {
                 <x-button label="{{ __('Login') }}" link="/login"
                     class="btn-ghost h-10 flex items-center justify-center" />
                 @endif
-                <livewire:search />
+                <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
             </div>
 
         </span>
@@ -194,10 +195,13 @@ new class extends Component {
                 <x-button label="{{ __('Login') }}" link="/login"
                     class="btn-ghost h-10 flex items-center justify-center" />
                 @endif
+                <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
             </div>
+
             @endif
+
         </span>
-        <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
+
 
     </x-slot:actions>
 </x-nav>
