@@ -10,8 +10,7 @@ Volt::route('/blog', 'blog.index')->name('blog.index');
 
 Volt::route('/blog/posts', 'posts.index')->name('posts.index');
 Volt::route('/blog/posts/{slug}', 'posts.show')->name('posts.show');
-Volt::route('/blog/search/{param}', 'index')->name('posts.search');
-Volt::route('/blog/pages/{page:slug}', 'pages.show')->name('pages.show');
+Volt::route('/blog/search/{param}', 'blog.index')->name('posts.search');
 
 Volt::route('/', 'index')->name('home');
 Volt::route('/pages/{page:slug}', 'page')->name('pages');

@@ -23,19 +23,19 @@ new class extends Component {
         {{-- Liens principaux --}}
         <x-menu-item title="{{ __('Shop') }}" icon="o-home" link="{{ route('home') }}" />
         <x-menu-item title="{{ __('Blog') }}" icon="o-newspaper" link="{{ route('blog.index') }}" />
+        <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
 
         <x-menu-separator />
 
         {{-- Options spécifiques selon la page --}}
         @if ($this->isBlogPage())
             <x-menu-item title="{{ __('Articles') }}" icon="o-document-text" link="{{ route('blog.index') }}" />
-          
-            <x-menu-item title="{{ __('Search') }}" no-link no-hover class="my-2">
-                <livewire:search />
-            </x-menu-item>
-        @else
-            <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
-        @endif
+            <livewire:search/>
+            @auth
+            <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="{{ route('posts.create') }}" />
+            @endauth
+
+      @endif
 
         <x-menu-separator />
 
