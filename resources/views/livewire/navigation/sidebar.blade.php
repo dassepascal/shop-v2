@@ -43,7 +43,7 @@ new class extends Component {
             <x-menu-item title="{{ __('Articles') }}" icon="o-document-text" link="{{ route('blog.index') }}" />
             <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
             @auth
-                <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="{{ route('posts.create') }}" />
+                <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="#" />
             @endauth
             <!-- Menus dynamiques -->
             @forelse ($menus as $menu)
