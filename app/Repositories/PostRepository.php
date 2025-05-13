@@ -64,9 +64,8 @@ class PostRepository
 
     public function getPostBySlug(string $slug): Post
     {
-        // return Post::with('user:id,name', 'category')
-        //     ->withCount('validComments')
-        //     ->whereSlug($slug)->firstOrFail();
-        return Post::with('user:id,name', 'category')->whereSlug($slug)->firstOrFail();
+        return Post::with('user:id,name', 'category')
+			->withCount('validComments')
+			->whereSlug($slug)->firstOrFail();
     }
 }
