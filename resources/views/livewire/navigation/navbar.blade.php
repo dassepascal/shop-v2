@@ -76,88 +76,88 @@ new class extends Component {
     <x-slot:actions>
         <span class="hidden lg:block">
             @if ($this->isBlogPage())
-            <div class="flex items-center space-x-4">
-                <x-menu>
-                    <x-menu-item title="{{ __('Articles') }}" link="{{ route('blog.index') }}"
-                        class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
-                </x-menu>
-            
-                <x-menu>
-                    <x-menu-item title="{{ __('Shop') }}" link="{{ route('home') }}"
-                        class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
-                </x-menu>
-                <livewire:search />
-                @if ($user = auth()->user())
-                <x-dropdown>
-                    <x-slot:trigger>
-                        <x-button label="{{ $user->name }} {{ $user->firstname }}"
+                <div class="flex items-center space-x-4">
+                    <x-menu>
+                        <x-menu-item title="{{ __('Articles') }}" link="{{ route('blog.index') }}"
+                            class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                    </x-menu>
+
+                    <x-menu>
+                        <x-menu-item title="{{ __('Shop') }}" link="{{ route('home') }}"
+                            class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                    </x-menu>
+                    <livewire:search />
+                    @if ($user = auth()->user())
+                        <x-dropdown>
+                            <x-slot:trigger>
+                                <x-button label="{{ $user->name }} {{ $user->firstname }}"
+                                    class="btn-ghost h-10 flex items-center justify-center" />
+                            </x-slot:trigger>
+                            <span class="text-black">
+                                @if ($user->isAdmin())
+                                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
+                                @endif
+                                <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
+                                <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
+                                <x-menu-item title="{{ __('My orders') }}" link="{{ route('orders') }}" />
+                                <x-menu-item title="{{ __('RGPD') }}" link="{{ route('rgpd') }}" />
+                                <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
+                            </span>
+                        </x-dropdown>
+                    @else
+                        <x-button label="{{ __('Login') }}" link="/login"
                             class="btn-ghost h-10 flex items-center justify-center" />
-                    </x-slot:trigger>
-                    <span class="text-black">
-                        @if ($user->isAdmin())
-                        <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
-                        @endif
-                        <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
-                        <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
-                        <x-menu-item title="{{ __('My orders') }}" link="{{ route('orders') }}" />
-                        <x-menu-item title="{{ __('RGPD') }}" link="{{ route('rgpd') }}" />
-                        <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
-                    </span>
-                </x-dropdown>
-                @else
-                <x-button label="{{ __('Login') }}" link="/login"
-                    class="btn-ghost h-10 flex items-center justify-center" />
-                @endif
-                <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
-            </div>
+                    @endif
+                    <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
+                </div>
 
         </span>
-        @else
+    @else
         @if ($CartItems > 0 && $url !== route('cart') && $url !== route('order.index'))
-        <x-dropdown>
-            <x-slot:trigger>
-                <x-button label="{{ __('Cart') }}" icon="o-shopping-cart" badge="{{ $CartItems }}"
-                    badge-classes="badge-ghost" class="btn-ghost" />
-            </x-slot:trigger>
-            <div class="p-2 text-black {{ $content->isNotEmpty() ? 'min-w-[300px]' : '' }}">
-                @foreach ($content as $item)
-                <div class="flex justify-between mb-2">
-                    <div class="flex gap-4">
-                        <img class="object-cover w-14 h-14"
-                            src="{{ asset('storage/photos/' . $item->attributes->image) }}"
-                            alt="{{ $item->name }}" />
-                        <div class="mt-2">
-                            <span class="font-bold">{{ $item->name }}</span><br>
-                            {{ number_format($item->quantity * $item->price, 2, ',', ' ') }} €
-                            <br>@lang('Quantity:') {{ $item->quantity }}
+            <x-dropdown>
+                <x-slot:trigger>
+                    <x-button label="{{ __('Cart') }}" icon="o-shopping-cart" badge="{{ $CartItems }}"
+                        badge-classes="badge-ghost" class="btn-ghost" />
+                </x-slot:trigger>
+                <div class="p-2 text-black {{ $content->isNotEmpty() ? 'min-w-[300px]' : '' }}">
+                    @foreach ($content as $item)
+                        <div class="flex justify-between mb-2">
+                            <div class="flex gap-4">
+                                <img class="object-cover w-14 h-14"
+                                    src="{{ asset('storage/photos/' . $item->attributes->image) }}"
+                                    alt="{{ $item->name }}" />
+                                <div class="mt-2">
+                                    <span class="font-bold">{{ $item->name }}</span><br>
+                                    {{ number_format($item->quantity * $item->price, 2, ',', ' ') }} €
+                                    <br>@lang('Quantity:') {{ $item->quantity }}
+                                </div>
+                            </div>
+                            <x-button icon="o-trash" wire:click="deleteItem({{ $item->id }})"
+                                class="text-red-500 btn-circle btn-ghost btn-sm" />
                         </div>
+                        <hr><br>
+                    @endforeach
+                    <br>
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="font-bold">
+                            @if ($CartItems > 1)
+                                @lang('Total of my') {{ $CartItems }} @lang('articles')
+                            @else
+                                @lang('Total of my article')
+                            @endif
+                        </div>
+                        <div class="font-bold">{{ number_format($total, 2, ',', ' ') }} € TTC</div>
                     </div>
-                    <x-button icon="o-trash" wire:click="deleteItem({{ $item->id }})"
-                        class="text-red-500 btn-circle btn-ghost btn-sm" />
-                </div>
-                <hr><br>
-                @endforeach
-                <br>
-                <div class="flex justify-between items-center mb-1">
-                    <div class="font-bold">
-                        @if ($CartItems > 1)
-                        @lang('Total of my') {{ $CartItems }} @lang('articles')
-                        @else
-                        @lang('Total of my article')
-                        @endif
+                    <p class="mb-4 text-right"><em>@lang('Excluding delivery')</em></p>
+                    <hr>
+                    <div class="flex gap-2 justify-between items-center mt-4">
+                        <x-button label="{{ __('Trash my cart') }}" wire:click="cleanCart"
+                            class="text-red-500 btn-ghost btn-sm" />
+                        <x-button label="{{ __('View my cart') }}" link="{{ route('cart') }}"
+                            icon-right="c-arrow-right" class="btn-primary btn-sm" />
                     </div>
-                    <div class="font-bold">{{ number_format($total, 2, ',', ' ') }} € TTC</div>
                 </div>
-                <p class="mb-4 text-right"><em>@lang('Excluding delivery')</em></p>
-                <hr>
-                <div class="flex gap-2 justify-between items-center mt-4">
-                    <x-button label="{{ __('Trash my cart') }}" wire:click="cleanCart"
-                        class="text-red-500 btn-ghost btn-sm" />
-                    <x-button label="{{ __('View my cart') }}" link="{{ route('cart') }}"
-                        icon-right="c-arrow-right" class="btn-primary btn-sm" />
-                </div>
-            </div>
-        </x-dropdown>
+            </x-dropdown>
         @endif
         <span class="hidden lg:block">
             <div class="flex items-center space-x-4 justify-start">
@@ -170,25 +170,25 @@ new class extends Component {
                         class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-white hover:bg-gray-300" />
                 </x-menu>
                 @if ($user = auth()->user())
-                <x-dropdown>
-                    <x-slot:trigger>
-                        <x-button label="{{ $user->name }} {{ $user->firstname }}"
-                            class="btn-ghost h-10 flex items-center justify-center" />
-                    </x-slot:trigger>
-                    <span class="text-black">
-                        @if ($user->isAdmin())
-                        <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
-                        @endif
-                        <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
-                        <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
-                        <x-menu-item title="{{ __('My orders') }}" link="{{ route('orders') }}" />
-                        <x-menu-item title="{{ __('RGPD') }}" link="{{ route('rgpd') }}" />
-                        <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
-                    </span>
-                </x-dropdown>
+                    <x-dropdown>
+                        <x-slot:trigger>
+                            <x-button label="{{ $user->name }} {{ $user->firstname }}"
+                                class="btn-ghost h-10 flex items-center justify-center" />
+                        </x-slot:trigger>
+                        <span class="text-black">
+                            @if ($user->isAdmin())
+                                <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
+                            @endif
+                            <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
+                            <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
+                            <x-menu-item title="{{ __('My orders') }}" link="{{ route('orders') }}" />
+                            <x-menu-item title="{{ __('RGPD') }}" link="{{ route('rgpd') }}" />
+                            <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
+                        </span>
+                    </x-dropdown>
                 @else
-                <x-button label="{{ __('Login') }}" link="/login"
-                    class="btn-ghost h-10 flex items-center justify-center" />
+                    <x-button label="{{ __('Login') }}" link="/login"
+                        class="btn-ghost h-10 flex items-center justify-center" />
                 @endif
                 <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
             </div>
