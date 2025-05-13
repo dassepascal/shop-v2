@@ -99,7 +99,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             PostSeeder::class,
             BlogPageSeeder::class,
-            MenusSeeder::class
+            MenusSeeder::class,
+            CommentSeeder::class,
         ]);
 
         foreach ([
