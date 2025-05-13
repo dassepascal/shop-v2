@@ -8,11 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\ManageOrders;
 
-new 
-#[Title('Orders')] 
-#[Layout('components.layouts.admin')] 
-class extends Component
-{
+new #[Title('Orders')] #[Layout('components.layouts.admin')] class extends Component {
     use Toast, WithPagination, ManageOrders;
 
     public int $perPage = 10;
@@ -25,14 +21,10 @@ class extends Component
         $this->success(__('Order deleted successfully.'));
     }
 
-    
-
     // Nouvelle méthode pour calculer les stats de ventes
     private function getSalesStats(): array
     {
-        $salesThisMonth = Order::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->sum('total'); // Assumant qu'il y a un champ 'total' dans Order
+        $salesThisMonth = Order::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('total'); // Assumant qu'il y a un champ 'total' dans Order
 
         $salesLastMonth = Order::whereMonth('created_at', now()->subMonth()->month)
             ->whereYear('created_at', now()->subMonth()->year)
@@ -40,13 +32,13 @@ class extends Component
 
         // Déterminer la tendance
         $isTrendingUp = $salesThisMonth > $salesLastMonth;
-        
+
         return [
             'salesThisMonth' => number_format($salesThisMonth, 2),
             'salesTrendIcon' => $isTrendingUp ? 'o-arrow-trending-up' : 'o-arrow-trending-down',
             'salesTrendClass' => $isTrendingUp ? 'text-green-500' : 'text-orange-500',
             'salesTrendColor' => $isTrendingUp ? 'text-green-500' : 'text-orange-500',
-            'salesTooltip' => $isTrendingUp ? __('Les ventes sont en hausses!') : __('Les ventes sont en baisse!')
+            'salesTooltip' => $isTrendingUp ? __('Les ventes sont en hausses!') : __('Les ventes sont en baisse!'),
         ];
     }
 
@@ -74,7 +66,7 @@ class extends Component
             'cancelledTrendIcon' => $isTrendingUp ? 'o-arrow-trending-up' : 'o-arrow-trending-down',
             'cancelledTrendClass' => $isTrendingUp ? 'text-red-500' : 'text-red-500',
             'cancelledTrendColor' => $isTrendingUp ? 'text-red-500' : 'text-red-500',
-            'cancelledTooltip' => $isTrendingUp ? __('Plus de commande annulé ce mois') : __('Moin de commande annulé ce mois')
+            'cancelledTooltip' => $isTrendingUp ? __('Plus de commande annulé ce mois') : __('Moin de commande annulé ce mois'),
         ];
     }
 
@@ -102,29 +94,26 @@ class extends Component
             'refundedTrendIcon' => $isTrendingUp ? 'o-arrow-trending-up' : 'o-arrow-trending-down',
             'refundedTrendClass' => $isTrendingUp ? 'text-red-500' : 'text-orange-500',
             'refundedTrendColor' => $isTrendingUp ? 'text-red-500' : 'text-orange-500',
-            'refundedTooltip' => $isTrendingUp ? __('Plus de commandes remboursées ce mois') : __('Moins de commandes remboursées ce mois')
+            'refundedTooltip' => $isTrendingUp ? __('Plus de commandes remboursées ce mois') : __('Moins de commandes remboursées ce mois'),
         ];
     }
 
-
-
     public function with(): array
-	{
+    {
         $salesStats = $this->getSalesStats();
         $cancelledStats = $this->getCancelledOrdersStats();
         $refundedStats = $this->getRefundedOrdersStats();
-       
-		return [
+
+        return [
             'orders' => Order::with('user', 'state', 'addresses')
                 ->orderBy(...array_values($this->sortBy))
-                ->when($this->search, function (Builder $q)
-                {
+                ->when($this->search, function (Builder $q) {
                     $q->where('reference', 'like', "%{$this->search}%")
                         ->orWhereRelation('addresses', 'company', 'like', "%{$this->search}%")
                         ->orWhereRelation('state', 'name', 'like', "%{$this->search}%");
                 })
                 ->paginate($this->perPage),
-			'headersOrders' => $this->headersOrders(),
+            'headersOrders' => $this->headersOrders(),
             'salesThisMonth' => $salesStats['salesThisMonth'],
             'salesTrendIcon' => $salesStats['salesTrendIcon'],
             'salesTrendClass' => $salesStats['salesTrendClass'],
@@ -140,66 +129,40 @@ class extends Component
             'refundedTrendClass' => $refundedStats['refundedTrendClass'],
             'refundedTrendColor' => $refundedStats['refundedTrendColor'],
             'refundedTooltip' => $refundedStats['refundedTooltip'],
-          
-		];
-	}
-   
+        ];
+    }
 }; ?>
 
 
 <div>
-    <x-header title="{{ __('Orders') }}" separator progress-indicator >
+    <x-header title="{{ __('Orders') }}" separator progress-indicator>
         <x-slot:actions>
-            <x-input 
-                placeholder="{{ __('Search...') }}" 
-                wire:model.live.debounce="search" 
-                clearable
-                icon="o-magnifying-glass" 
-            />
-            <x-button 
-                icon="s-building-office-2" 
-                label="{{ __('Dashboard') }}" 
-                class="btn-outline lg:hidden" 
-                link="{{ route('admin') }}" 
-            />
+            <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+                icon="o-magnifying-glass" />
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>
-    
-    <div class="flex space-x-4 mb-10" >
-       
-        
-        <x-stat
-            title="{{ __('Sales') }}"
-            description="{{ __('This month') }}"
-            value="{{ $salesThisMonth }}"
-            icon="{{ $salesTrendIcon }}"
-            class="{{ $salesTrendClass }}"
-            color="{{ $salesTrendColor }}"
-            tooltip-bottom="{{ $salesTooltip }}" />
 
-            <x-stat
-            title="{{ __('Cancelled Orders') }}"
-            description="{{ __('This month') }}"
-            value="{{ $cancelledThisMonth }}"
-            icon="{{ $cancelledTrendIcon }}"
-            class="{{ $cancelledTrendClass }}"
-            color="{{ $cancelledTrendColor }}"
-            tooltip-bottom="{{ $cancelledTooltip }}" />
+    <div class="flex flex-wrap gap-4 mb-4">
 
-            <x-stat
-            title="{{ __('Refunded Orders') }}"
-            description="{{ __('This month') }}"
-            value="{{ $refundedThisMonth }}"
-            icon="{{ $refundedTrendIcon }}"
-            class="{{ $refundedTrendClass }}"
-            color="{{ $refundedTrendColor }}"
-            tooltip-bottom="{{ $refundedTooltip }}" />
-            
+        <x-stat title="{{ __('Sales') }}" description="{{ __('This month') }}" value="{{ $salesThisMonth }}"
+            icon="{{ $salesTrendIcon }}" class="{{ $salesTrendClass }}" color="{{ $salesTrendColor }}"
+            tooltip-bottom="{{ $salesTooltip }}" class="w-full md:w-1/4" />
+
+        <x-stat title="{{ __('Cancelled Orders') }}" description="{{ __('This month') }}"
+            value="{{ $cancelledThisMonth }}" icon="{{ $cancelledTrendIcon }}" class="{{ $cancelledTrendClass }}"
+            color="{{ $cancelledTrendColor }}" tooltip-bottom="{{ $cancelledTooltip }}" class="w-full md:w-1/4" />
+
+        <x-stat title="{{ __('Refunded Orders') }}" description="{{ __('This month') }}"
+            value="{{ $refundedThisMonth }}" icon="{{ $refundedTrendIcon }}" class="{{ $refundedTrendClass }}"
+            color="{{ $refundedTrendColor }}" tooltip-bottom="{{ $refundedTooltip }}" class="w-full md:w-1/4" />
+
         <!-- Autres stats... -->
     </div>
 
-    
+
     @include('livewire.admin.orders.table')
-   
+
 </div>
 </div>
