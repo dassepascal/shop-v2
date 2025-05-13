@@ -15,13 +15,32 @@ new class extends Component {
 }; ?>
 
 <div>
+<div class="min-h-[35vw] hero" style="background-image: url({{asset('storage/hero.jpg')}})">
+            <div class="bg-opacity-60 hero-overlay"></div>
+            <a href="{{ '/' }}">
+                <div class="text-center hero-content text-neutral-content">
+                    <div>
+                        <h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                            Blog
+                        </h1>
+                        <p class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                            sous titre
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+
+
+
+    </div>
 @section('title', $post->seo_title ?? $post->title)
     @section('description', $post->meta_description)
     @section('keywords', $post->meta_keywords)
     <div id="top" class="flex justify-end gap-4">
         <x-popover>
             <x-slot:trigger>
-                <x-button class="btn-sm"><a
+                <x-button class="btn-sm "><a
                         href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
             </x-slot:trigger>
             <x-slot:content class="pop-small">

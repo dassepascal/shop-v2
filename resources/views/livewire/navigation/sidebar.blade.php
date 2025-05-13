@@ -43,28 +43,29 @@ new class extends Component {
             @auth
                 <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="#" />
             @endauth
-            <!-- Menus dynamiques -->
+
+            <!-- Menus dynamiques pour les catégories -->
             <x-dropdown label="Categories" class="btn-outline font-bold border flex items-center justify-center hover:text-gray-700 hover:bg-gray-100">
-                @forelse ($menus as $menu)
-                    <div class="menu-item">
-                        @if ($menu->submenus->isNotEmpty())
-                            <x-menu-item title="{{ $menu->label }}" icon="o-chevron-down" no-link class="font-bold text-base">
-                                @forelse ($menu->submenus as $submenu)
-                                    <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}" class="pl-6 text-sm hover:bg-gray-100 transition-colors" />
-                                @empty
-                                    <x-menu-item title="{{ __('No submenus available') }}" no-link class="pl-6 text-sm text-gray-500" />
-                                @endforelse
-                            </x-menu-item>
-                        @else
-                            <x-menu-item title="{{ $menu->label }}" icon="o-link" link="{{ $menu->link ?? '#' }}" class="text-base" />
-                        @endif
-                    </div>
-                @empty
-                    <x-menu-item title="{{ __('No menus available') }}" no-link class="text-gray-500" />
-                @endforelse
-                <x-menu-item title="{{ __('Search') }}" no-link no-hover class="my-2">
-                 
-                </x-menu-item>
+                @foreach ($menus as $menu)
+                    @if ($menu->submenus->isNotEmpty())
+                        <x-menu-sub title="{{ $menu->label }}" class="btn-ghost">
+                            @foreach ($menu->submenus as $submenu)
+                                <x-menu-item
+                                    title="{{ $submenu->label }}"
+                                    link="{{ Str::replace('/posts/', '/blog/posts/', $submenu->link) }}"
+                                    class="pl-6 text-sm hover:bg-gray-100 transition-colors"
+                                />
+                            @endforeach
+                        </x-menu-sub>
+                    @else
+                        <x-menu-item
+                            title="{{ $menu->label }}"
+                            link="{{ $menu->link }}"
+                            :external="Str::startsWith($menu->link, 'http')"
+                            class="text-base"
+                        />
+                    @endif
+                @endforeach
             </x-dropdown>
         @else
             <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />

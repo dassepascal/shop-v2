@@ -75,9 +75,7 @@ new class extends Component {
         @elseif($param !== '')
         <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" size="text-2xl sm:text-3xl md:text-4xl" />
         @endif
-        @if ($category)
-        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
-        @endif
+
 
         <div class="mb-4 mary-table-pagination">
             <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
@@ -126,7 +124,7 @@ new class extends Component {
 
                             <x-popover>
                                 <x-slot:trigger>
-                                    <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
+                                    <x-button label="{{ __('Read') }}" link="{{ url('/blog/posts/' . $post->slug) }}"
                                         class="mt-1 btn-outline btn-sm" />
                                 </x-slot:trigger>
                                 <x-slot:content class="pop-small">

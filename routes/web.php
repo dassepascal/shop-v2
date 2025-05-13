@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Volt::route('/blog', 'blog.index')->name('blog.index');
 
-
+Volt::route('/category/{slug}', 'blog.index');
+Volt::route('/posts/{slug}', 'blog.index');
 Volt::route('/blog/posts', 'posts.index')->name('posts.index');
 Volt::route('/blog/posts/{slug}', 'posts.show')->name('posts.show');
 Volt::route('/blog/search/{param}', 'index')->name('posts.search');
