@@ -62,10 +62,20 @@ class PostRepository
             ->paginate(config('app.pagination'));
     }
 
+    
+
     public function getPostBySlug(string $slug): Post
     {
+        $userId = auth()->id();
+
         return Post::with('user:id,name', 'category')
-			->withCount('validComments')
-			->whereSlug($slug)->firstOrFail();
+                ->withCount('validComments')
+                ->withExists([
+                    'favoritedByUsers as is_favorited' => function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    },
+                ])
+                ->where('slug', $slug)->firstOrFail();
     }
+
 }
