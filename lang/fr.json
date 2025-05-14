@@ -604,6 +604,19 @@
     "Profile": "Profil",
     "Bookmark this post": "Marquer cet article",
     "Remove from favorites": "Supprimer des favoris",
-    "View comments":"Voir les commentaires",
-    "Post comment":"Commenter article"
+    "View comments": "Voir les commentaires",
+    "Post comment": "Commenter article",
+
+    "Author": "Auteur",
+    "Updated": "Mis à jour",
+    "Category": "Catégorie",
+    "Published": "Publié",
+    "Posts": "Articles",
+    "Add a post": "Ajouter un article",
+    "All posts": "Tous les articles",
+    "Are you sure to delete this post?": "Etes-vous sûr de vouloir supprimer cet article ?",
+    "deleted": "supprimé",
+    "Clone": "Dupliquer",
+    "Filters": "Filtres",
+    "Select a category": "Sélectionnez une catégorie"
 }

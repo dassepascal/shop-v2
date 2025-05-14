@@ -62,7 +62,7 @@ class PostRepository
             ->paginate(config('app.pagination'));
     }
 
-    
+
 
     public function getPostBySlug(string $slug): Post
     {
@@ -77,5 +77,28 @@ class PostRepository
                 ])
                 ->where('slug', $slug)->firstOrFail();
     }
+
+    public function generateUniqueSlug(string $slug): string
+{
+	$newSlug = $slug;
+	$counter = 1;
+	while (Post::where('slug', $newSlug)->exists()) {
+		$newSlug = $slug . '-' . $counter;
+		++$counter;
+	}
+	return $newSlug;
+}
+
+public function clonePost(int $postId): void
+{
+    $originalPost       = Post::findOrFail($postId);
+    $clonedPost         = $originalPost->replicate();
+    $postRepository     = new PostRepository();
+    $clonedPost->slug   = $postRepository->generateUniqueSlug($originalPost->slug);
+    $clonedPost->active = false;
+    $clonedPost->save();
+
+    // Ici on redirigera vers le formulaire de modification de l'article cloné
+}
 
 }

@@ -26,6 +26,9 @@ new class extends Component {
         </x-list-item>
         <x-menu-separator />
         <x-menu-item title="{{ __('Dashboard') }}" icon="s-building-office-2" link="{{ route('admin') }}" />
+        <x-menu-sub title="{{ __('Posts') }}" icon="s-document-text">
+            <x-menu-item title="{{ __('All posts') }}" link="{{ route('posts.index') }}" />
+        </x-menu-sub>
         <x-menu-item title="{{ __('Orders') }}" icon="s-shopping-bag" link="{{ route('admin.orders.index') }}" />
         <x-menu-sub title="{{ __('Customers') }}" icon="s-users">
             <x-menu-item title="{{ __('Datas') }}" icon="s-list-bullet" link="{{ route('admin.customers.index') }}" />
@@ -50,7 +53,7 @@ new class extends Component {
                     link="{{ route('admin.parameters.shipping.rates') }}" />
             </x-menu-sub>
         </x-menu-sub>
-        <x-menu-item title="{{ __('Statistics') }}" icon="s-chart-pie" link="{{ route('admin.stats') }}" /> 
+        <x-menu-item title="{{ __('Statistics') }}" icon="s-chart-pie" link="{{ route('admin.stats') }}" />
         <x-menu-item title="{{ __('Maintenance') }}" icon="c-wrench-screwdriver" link="{{ route('admin.maintenance') }}" :class="App::isDownForMaintenance() ? 'bg-red-300' : ''" />
 
         <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on store') }}" link="/" />

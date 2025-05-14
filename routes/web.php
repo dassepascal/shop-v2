@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
 		Volt::route('/maintenance', 'admin.maintenance')->name('admin.maintenance');
 		Volt::route('/products/promotion', 'admin.products.promotion')->name('admin.products.promotion');
 		Volt::route('/stats', 'admin.stats')->name('admin.stats');
+        Volt::route('/posts/index', 'admin.posts.index')->name('posts.index');
 
 	});
 });
