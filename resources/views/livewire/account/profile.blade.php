@@ -15,7 +15,7 @@ class extends Component {
 	use Toast, ManageProfile;
 
 	public User $user;
-	
+
 	public function mount(): void
 	{
 		$this->user = Auth::user();
@@ -32,7 +32,7 @@ class extends Component {
 			'password'   => ['nullable', 'string', 'min:8', 'confirmed', new StrongPassword()],
 		]);
 
-		
+
 		if (empty($data['password'])) {
 			unset($data['password']);
 		} else {
@@ -50,6 +50,8 @@ class extends Component {
 	<x-card class="flex items-center justify-center mt-6" title="{{ __('My personal informations') }}" shadow separator progress-indicator>
 
         <x-form wire:submit="save" x-data="{ rgpd: false }" class="pb-4" >
+       
+
 			<x-input label="{{ __('Your firstName') }}" wire:model="firstname" icon="o-user" required />
             <x-input label="{{ __('Your name') }}" wire:model="name" icon="o-user" required />
             <x-input label="{{ __('Your e-mail') }}" wire:model="email" icon="o-envelope" required />

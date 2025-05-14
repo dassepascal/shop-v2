@@ -30,6 +30,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Volt::route('/profile', 'auth.profile')->name('profileAuth');
 
 	Route::prefix('order')->group(function () {
 		Volt::route('/creation', 'order.index')->name('order.index');
