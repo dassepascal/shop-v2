@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
+use Mews\Purifier\Casts\CleanHtmlInput;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Comment extends Model
 {
     use HasFactory, Notifiable;
+
+    protected $casts = [
+		'body' => CleanHtmlInput::class,
+	];
 
     protected $fillable = [
 		'body',
