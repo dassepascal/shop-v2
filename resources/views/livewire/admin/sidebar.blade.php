@@ -28,6 +28,7 @@ new class extends Component {
         <x-menu-item title="{{ __('Dashboard') }}" icon="s-building-office-2" link="{{ route('admin') }}" />
         <x-menu-sub title="{{ __('Posts') }}" icon="s-document-text">
             <x-menu-item title="{{ __('All posts') }}" link="{{ route('posts.index') }}" />
+            <x-menu-item title="{{ __('Add a post') }}" link="{{ route('posts.create') }}" />
         </x-menu-sub>
         <x-menu-item title="{{ __('Orders') }}" icon="s-shopping-bag" link="{{ route('admin.orders.index') }}" />
         <x-menu-sub title="{{ __('Customers') }}" icon="s-users">
@@ -57,6 +58,7 @@ new class extends Component {
         <x-menu-item title="{{ __('Maintenance') }}" icon="c-wrench-screwdriver" link="{{ route('admin.maintenance') }}" :class="App::isDownForMaintenance() ? 'bg-red-300' : ''" />
 
         <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on store') }}" link="/" />
+        <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on blog') }}" link="/blog" />
         <x-menu-item>
             <x-theme-toggle />
         </x-menu-item>

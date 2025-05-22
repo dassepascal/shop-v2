@@ -3,6 +3,7 @@
 use Livewire\Volt\Volt;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\IsAdminOrRedac;
 
 
 Volt::route('/blog', 'blog.index')->name('blog.index');
@@ -48,6 +49,12 @@ Route::middleware('auth')->group(function () {
 		Volt::route('/rgpd', 'account.rgpd.index')->name('rgpd');
 	});
 
+    Route::middleware(IsAdminOrRedac::class)->prefix('admin')->group(function () {
+
+        Volt::route('/posts/index', 'admin.posts.index')->name('posts.index');
+        Volt::route('/posts/create', 'admin.posts.create')->name('posts.create');
+        Volt::route('/posts/{post:slug}/edit', 'admin.posts.edit')->name('posts.edit');
+    });
 	Route::middleware(IsAdmin::class)->prefix('admin')->group(function ()
 	{
 		Volt::route('/dashboard', 'admin.index')->name('admin');
@@ -73,7 +80,7 @@ Route::middleware('auth')->group(function () {
 		Volt::route('/maintenance', 'admin.maintenance')->name('admin.maintenance');
 		Volt::route('/products/promotion', 'admin.products.promotion')->name('admin.products.promotion');
 		Volt::route('/stats', 'admin.stats')->name('admin.stats');
-        Volt::route('/posts/index', 'admin.posts.index')->name('posts.index');
+
 
 	});
 });

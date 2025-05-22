@@ -58,6 +58,20 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
             ->paginate(6);
     }
 
+    public function clonePost(int $postId): void
+	{
+		$originalPost       = Post::findOrFail($postId);
+		$clonedPost         = $originalPost->replicate();
+		$postRepository     = new PostRepository();
+		$clonedPost->slug   = $postRepository->generateUniqueSlug($originalPost->slug);
+		$clonedPost->active = false;
+		$clonedPost->save();
+
+        redirect()->route('posts.edit', $clonedPost->slug);
+}
+		// Ici on redirigera vers le formulaire de modification de l'article cloné
+	
+
     public function with(): array
     {
         return [
@@ -97,7 +111,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 
     @if ($posts->count() > 0)
     <x-card>
-        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="#" with-pagination>
+        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit" with-pagination>
             @scope('header_comments_count', $header)
             {{ $header['label'] }}
             <x-icon name="c-chat-bubble-left" />

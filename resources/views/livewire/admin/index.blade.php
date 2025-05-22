@@ -87,46 +87,47 @@ new #[Layout('components.layouts.admin')] class extends Component {
                 <x-stat title="{{ __('Customers') }}" description="" value="{{ $usersCount }}" icon="s-user"
                     class="shadow-hover" />
             </a>
+          
         </x-slot:content>
     </x-collapse>
 
     @if (!is_null($promotion) && !is_null($promotion->value))
-        <x-card class="mt-6" title="" shadow separator>
-            <x-alert title="{{ __('Global promotion') }} {{ $textPromotion }}"
-                description="{{ __('From') }} {{ $promotion->date1->isoFormat('LL') }} {{ __('to') }} {{ $promotion->date2->isoFormat('LL') }} {{ __L('Percentage discount') }} {{ $promotion->value }}%"
-                icon="o-currency-euro" class="alert-warning">
-                <x-slot:actions>
-                    <x-button label="{{ __('Edit') }}" class="btn-outline"
-                        link="{{ route('admin.products.promotion') }}" />
-                </x-slot:actions>
-            </x-alert>
-        </x-card>
+    <x-card class="mt-6" title="" shadow separator>
+        <x-alert title="{{ __('Global promotion') }} {{ $textPromotion }}"
+            description="{{ __('From') }} {{ $promotion->date1->isoFormat('LL') }} {{ __('to') }} {{ $promotion->date2->isoFormat('LL') }} {{ __L('Percentage discount') }} {{ $promotion->value }}%"
+            icon="o-currency-euro" class="alert-warning">
+            <x-slot:actions>
+                <x-button label="{{ __('Edit') }}" class="btn-outline"
+                    link="{{ route('admin.products.promotion') }}" />
+            </x-slot:actions>
+        </x-alert>
+    </x-card>
     @endIf
 
     <x-header separator progress-indicator />
 
-    {{--  --}}
+    {{-- --}}
     @if ($productsDown->isNotEmpty())
-        <x-collapse class="shadow-md bg-red-500">
-            <x-slot:heading>
-                @lang('Stock alert')
-            </x-slot:heading>
-            <x-slot:content>
-                <x-card class="mt-6" title="" shadow separator>
-                    <x-table striped :rows="$productsDown" :headers="$headersProducts" link="/admin/products/{id}/edit"
-                        :row-decoration="$row_decoration">
-                        @scope('cell_image', $product)
-                            <img src="{{ asset('storage/photos/' . $product->image) }}" width="60" alt="">
-                        @endscope
-                    </x-table>
-                    <x-slot:actions>
-                        <x-button label="{{ __('See all products') }}" class="btn-primary" icon="s-list-bullet"
-                            link="{{ route('admin.products.index') }}" />
-                    </x-slot:actions>
-                </x-card>
-            </x-slot:content>
-        </x-collapse>
-        <br>
+    <x-collapse class="shadow-md bg-red-500">
+        <x-slot:heading>
+            @lang('Stock alert')
+        </x-slot:heading>
+        <x-slot:content>
+            <x-card class="mt-6" title="" shadow separator>
+                <x-table striped :rows="$productsDown" :headers="$headersProducts" link="/admin/products/{id}/edit"
+                    :row-decoration="$row_decoration">
+                    @scope('cell_image', $product)
+                    <img src="{{ asset('storage/photos/' . $product->image) }}" width="60" alt="">
+                    @endscope
+                </x-table>
+                <x-slot:actions>
+                    <x-button label="{{ __('See all products') }}" class="btn-primary" icon="s-list-bullet"
+                        link="{{ route('admin.products.index') }}" />
+                </x-slot:actions>
+            </x-card>
+        </x-slot:content>
+    </x-collapse>
+    <br>
     @endif
 
     <x-collapse wire:model="openOrders" class="shadow-md">

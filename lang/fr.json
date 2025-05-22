@@ -618,5 +618,10 @@
     "deleted": "supprimé",
     "Clone": "Dupliquer",
     "Filters": "Filtres",
-    "Select a category": "Sélectionnez une catégorie"
+    "Select a category": "Sélectionnez une catégorie",
+    "Go on blog": "Aller sur le blog",
+    "Edit a post": "Modifier un article",
+    "Post updated with success.": "Article mis à jour avec succès.",
+    "Edit this post": "Modifier cet article",
+    "Clone this post": "Dupliquer cet article"
 }

@@ -62,21 +62,7 @@ new class extends Component {
 }; ?>
 
 <div>
-    <div class="min-h-[35vw] hero mb-8" style="background-image: url({{asset('storage/hero.jpg')}})">
-        <div class="bg-opacity-60 hero-overlay"></div>
-        <a href="{{ '/' }}">
-            <div class="text-center hero-content text-neutral-content">
-                <div>
-                    <h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-                        Blog
-                    </h1>
-                    <p class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-                        sous titre
-                    </p>
-                </div>
-            </div>
-        </a>
-    </div>
+   <livewire:blog-hero />
 
 
     @section('title', $post->seo_title ?? $post->title)
@@ -101,6 +87,26 @@ new class extends Component {
                 @endif
             </x-slot:content>
         </x-popover>
+        @if (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
+        <x-popover>
+            <x-slot:trigger>
+                <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner
+                    class="btn-ghost btn-sm" />
+            </x-slot:trigger>
+            <x-slot:content class="pop-small">
+                @lang('Edit this post')
+            </x-slot:content>
+        </x-popover>
+        <x-popover>
+        <x-slot:trigger>
+            <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" spinner
+                class="btn-ghost btn-sm" />
+        </x-slot:trigger>
+        <x-slot:content class="pop-small">
+            @lang('Clone this post')
+        </x-slot:content>
+    </x-popover>
+        @endif
         @endauth
         <x-popover>
             <x-slot:trigger>

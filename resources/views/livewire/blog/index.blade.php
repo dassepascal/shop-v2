@@ -48,27 +48,9 @@ new class extends Component {
     }
 }; ?>
 <div>
+<livewire:blog-hero />
 
-
-        <div class="min-h-[35vw] hero" style="background-image: url({{asset('storage/hero.jpg')}})">
-            <div class="bg-opacity-60 hero-overlay"></div>
-            <a href="{{ '/' }}">
-                <div class="text-center hero-content text-neutral-content">
-                    <div>
-                        <h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-                            Blog
-                        </h1>
-                        <p class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-                            sous titre
-                        </p>
-                    </div>
-                </div>
-            </a>
-
-
-
-
-    </div>
+    
     <div class="relative grid items-center w-full py-5 mx-auto  md:px-12 max-w-7xl mt-5">
         @if ($category)
         <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
