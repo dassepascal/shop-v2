@@ -85,7 +85,10 @@ new class extends Component {
             <x-menu-item title="{{ __('RGPD') }}" icon="o-lock-closed" link="{{ route('rgpd') }}" />
             @if ($user->isAdmin())
                 <x-menu-separator />
-                <x-menu-item title="{{ __('Administration') }}" icon="o-cog" link="{{ route('admin') }}" />
+                <x-dropdown label="{{ __('Administration') }}" icon="o-cog" class="btn-outline font-bold border flex items-center justify-center hover:text-gray-700 hover:bg-gray-100">
+                    <x-menu-item title="{{ __('Shop Dashboard') }}" link="{{ route('admin.shop.dashboard') }}" />
+                    <x-menu-item title="{{ __('Blog Dashboard') }}" link="{{ route('admin.blog.dashboard') }}" />
+                </x-dropdown>
             @endif
         @else
             <x-menu-item title="{{ __('Login') }}" icon="o-arrow-right-on-rectangle" link="/login" />

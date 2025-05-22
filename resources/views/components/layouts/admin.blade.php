@@ -21,10 +21,19 @@
     <x-main full-width>
 
         {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
+        {{-- <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
             <livewire:admin.sidebar />
+        </x-slot:sidebar> --}}
+        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
+            @if(request()->is('admin/shop*'))
+                <livewire:admin.shop.sidebar />
+                @elseif(request()->is('admin/blog*') )
+                <livewire:admin.blog.sidebar />
+                @else
+                <livewire:admin.sidebar />
+            @endif
+          
         </x-slot:sidebar>
-
         <x-slot:content>
             <!-- Drawer toggle for "main-drawer" -->
             <label for="main-drawer" class="mr-3 lg:hidden">

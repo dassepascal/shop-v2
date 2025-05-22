@@ -125,10 +125,10 @@ new class extends Component {
                                 <x-button label="{{ $user->name }} {{ $user->firstname }}"
                                     class="btn-ghost h-10 flex items-center justify-center" />
                             </x-slot:trigger>
-                           
+
                             <span class="text-black">
                                 @if ($user->isAdmin())
-                                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
+                                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin.dashboard') }}" />
                                 @endif
                                 <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
                                 <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
@@ -208,7 +208,7 @@ new class extends Component {
                             </x-slot:trigger>
                             <span class="text-black">
                                 @if ($user->isAdmin())
-                                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
+                                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin.dashboard') }}" />
                                 @endif
                                 <x-menu-item title="{{ __('My profile') }}" link="{{ route('profile') }}" />
                                 <x-menu-item title="{{ __('My addresses') }}" link="{{ route('addresses') }}" />
