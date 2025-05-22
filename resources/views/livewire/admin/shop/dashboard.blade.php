@@ -80,7 +80,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
         <x-slot:heading>
             @lang('In a glance')
         </x-slot:heading>
-        <x-slot:content class="flex flex-wrap gap-4">
+        <x-slot:content class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <a href="/" class="flex-grow">
                 <x-stat title="{{ __('Active products') }}" description="" value="{{ $productsCount }}"
                     icon="s-shopping-bag" class="shadow-hover" />
@@ -93,7 +93,6 @@ new #[Layout('components.layouts.admin')] class extends Component {
                 <x-stat title="{{ __('Customers') }}" description="" value="{{ $usersCount }}" icon="s-user"
                     class="shadow-hover" />
             </a>
-
         </x-slot:content>
     </x-collapse>
 
@@ -115,7 +114,6 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
     <x-header separator progress-indicator />
 
-    {{-- --}}
     @if ($productsDown && $productsDown->isNotEmpty())
     <x-collapse class="shadow-md bg-red-500">
         <x-slot:heading>

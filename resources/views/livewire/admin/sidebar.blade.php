@@ -40,7 +40,5 @@ new class extends Component {
         </div>
     </x-menu>
 
-    <x-sidebar>
-        <p>Contenu principal ici</p>
-    </x-sidebar>
+   
 </div>
