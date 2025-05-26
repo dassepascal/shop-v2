@@ -10,6 +10,7 @@
 
         <x-menu-separator />
         <x-menu-item title="{{ __('Dashboard') }}" icon="s-building-storefront" link="{{ route('admin.dashboard') }}" />
+        <x-menu-item title="{{ __('Dashboard shop') }}" icon="s-building-storefront" link="{{ route('admin.shop.dashboard') }}" />
         <x-menu-item title="{{ __('Orders') }}" icon="s-shopping-bag" link="{{ route('admin.shop.orders.index') }}" />
         <x-menu-item title="{{ __('Products') }}" icon="s-cube" link="{{ route('admin.shop.products.index') }}" />
         <x-menu-item title="{{ __('Customers') }}" icon="s-users" link="{{ route('admin.shop.customers.index') }}" />

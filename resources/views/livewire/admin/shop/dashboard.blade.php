@@ -80,6 +80,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
         <x-slot:heading>
             @lang('In a glance')
         </x-slot:heading>
+
         <x-slot:content class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <a href="/" class="flex-grow">
                 <x-stat title="{{ __('Active products') }}" description="" value="{{ $productsCount }}"

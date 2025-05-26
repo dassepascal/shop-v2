@@ -67,7 +67,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 		$clonedPost->active = false;
 		$clonedPost->save();
 
-        redirect()->route('posts.edit', $clonedPost->slug);
+        redirect()->route('blog.posts.edit', $clonedPost->slug);
 }
 		// Ici on redirigera vers le formulaire de modification de l'article cloné
 
@@ -92,9 +92,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
     <x-header title="{{ __('Posts') }}" separator progress-indicator>
         <x-slot:actions>
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
-            <x-button label="{{ __('Add a post') }}" class="btn-outline lg:hidden" link="#" />
-            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
-                link="{{ route('admin.blog.dashboard') }}" />
+           
         </x-slot:actions>
     </x-header>
     <x-collapse>

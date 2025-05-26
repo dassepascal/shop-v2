@@ -18,7 +18,7 @@ new class extends Component {
         'firstname' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'subject' => 'required|string|max:255',
-           ];
+    ];
 
     // Personnaliser les noms des champs
     public function attributes()
@@ -66,21 +66,19 @@ new class extends Component {
 
         <form wire:submit="submit">
             <div class="grid gap-6 md:grid-cols-2">
-                <x-input wire:model="name" label="{{ __('Nom') }}" placeholder="{{ __('Entrez votre nom') }}"
-                     />
-                <x-input wire:model="firstname" label="{{ __('Prénom') }}" placeholder="{{ __('Entrez votre prénom') }}"
-                     />
+                <x-input wire:model="name" label="{{ __('Nom') }}" placeholder="{{ __('Entrez votre nom') }}" />
+                <x-input wire:model="firstname" label="{{ __('Prénom') }}" placeholder="{{ __('Entrez votre prénom') }}" />
                 <x-input wire:model="email" type="email" label="{{ __('Email') }}"
-                    placeholder="{{ __('Entrez votre email') }}"  />
+                    placeholder="{{ __('Entrez votre email') }}" />
                 <x-textarea wire:model="subject" label="{{ __('Objet de la demande') }}"
-                    placeholder="{{ __('Objet de votre demande') }}"  />
+                    placeholder="{{ __('Objet de votre demande') }}" />
             </div>
 
-           
+            <div>
                 <!-- Afficher les erreurs pour informationRequest -->
-                {{-- @error('informationRequest')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror --}}
+                @error('informationRequest')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mt-6">

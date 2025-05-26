@@ -50,10 +50,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(IsAdminOrRedac::class)->prefix('admin')->group(function () {
+        Volt::route('/dashboard', 'admin.dashboard')->name('admin.dashboard');
 
         Volt::route('/posts/index', 'admin.posts.index')->name('posts.index');
         Volt::route('/posts/create', 'admin.posts.create')->name('posts.create');
         Volt::route('/posts/{post:slug}/edit', 'admin.posts.edit')->name('posts.edit');
+        Volt::route('/categories', 'admin.blog.categories.index')->name('admin.blog.categories.index');
+        Volt::route('/categories/create', 'admin.blog.categories.create')->name('admin.blog.categories.create');
+        Volt::route('/categories/{category}/edit', 'admin.blog.categories.edit')->name('admin.blog.categories.edit');
     });
     Route::middleware(IsAdmin::class)->prefix('admin')->group(function () {
         // Dashboard principal pour choisir entre Shop et Blog
