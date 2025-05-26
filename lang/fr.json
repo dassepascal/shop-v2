@@ -503,7 +503,6 @@
     "Page deleted successfully.": "Page supprimée avec succès.",
     "Enter page title": "Entrez le titre de la page",
     "Text": "Texte",
-
     "Page updated successfully.": "Page mise à jour avec succès.",
     "Weight ranges": "Plages de poids",
     "Maximum weight": "Poids maximum",
@@ -598,7 +597,6 @@
     "Update profile": "Modifier le profil",
     "Your name can't be changed": "Votre nom ne peut pas être modifié",
     "You can change your profile picture on Gravatar": "Vous pouvez changer votre image de profil sur Gravatar",
-
     "Delete account": "Supprimer le compte",
     "Are you sure to delete your account?": "Etes-vous sûr de vouloir supprimer votre compte ?",
     "Profile": "Profil",
@@ -637,5 +635,18 @@
     "Are you sure to delete this page?": "Êtes-vous sûr de vouloir supprimer cette page ?",
     "Page added with success.": "Page ajoutée avec succès.",
     "Page edited with success.": "Page mise à jour avec succès.",
-    "Edit a page": "Modifier une page"
+    "Edit a page": "Modifier une page",
+    "Accounts": "Comptes",
+    "All": "Tous",
+    "Administrators": "Administrateurs",
+    "Redactors": "Rédacteurs",
+    "Administrator": "Administrateur",
+    "Redactor": "Rédacteur",
+    "Role": "Rôle",
+    "Valid": "Valide",
+    "Valid user": "Utilisateur validé",
+    "Are you sure to delete this user?": "Etes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "Edit an account": "Modifier un compte",
+    "Select a role": "Sélectionnez un rôle",
+    "User edited with success.": "Utilisateur mis à jour avec succès."
 }
