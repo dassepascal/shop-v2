@@ -1,11 +1,12 @@
 <?php
 
 use App\Models\Post;
+use Mary\Traits\Toast;
+use Livewire\Volt\Component;
 use App\Repositories\PostRepository;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\{Layout, Title};
-use Livewire\Volt\Component;
+use Illuminate\Database\Eloquent\Builder;
 
 new
     #[
@@ -14,86 +15,77 @@ new
     ]
     class extends Component {
 
+        use Toast;
 
-        public function headers(): array
+        public array $headersPosts;
+
+        public bool $openGlance = true;
+
+
+        public function mount(): void
         {
-            $headers = [['key' => 'title', 'label' => __('Title')]];
-
-            if (Auth::user()->isAdmin()) {
-                $headers = array_merge($headers, [['key' => 'user_name', 'label' => __('Author')]]);
-            }
-
-            return array_merge($headers, [['key' => 'category_title', 'label' => __('Category')], ['key' => 'comments_count', 'label' => __('')], ['key' => 'active', 'label' => __('Published')], ['key' => 'date', 'label' => __('Date')]]);
+            $this->headersPosts = [['key' => 'date', 'label' => __('Date')], ['key' => 'title', 'label' => __('Title')]];
         }
 
-        public function posts()
-        {
-            return Post::query()
-                ->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at')
-                ->when(Auth::user()->isAdmin(), fn(Builder $q) => $q->withAggregate('user', 'name'))
-                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-                ->withAggregate('category', 'title')
-                ->withcount('comments')
-                ->latest()
-                ->get();
-        }
+
 
         public function with(): array
         {
+            $user    = Auth::user();
+            $isRedac = $user->isRedac();
+            $userId  = $user->id;
+
             return [
-                'posts'   => $this->posts(),
-                'headers' => $this->headers(),
+
+                'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))->latest()->get(),
+
             ];
         }
     }; ?>
 
 <div>
-    <div class="bg-green-500">
-    <x-header title="{{ __('Posts') }}" separator progress-indicator>
+<x-collapse wire:model="openGlance" class="shadow-md bg-red-500">
+        <x-slot:heading>
+            @lang('In a glance')
+        </x-slot:heading>
+        <x-slot:content class="flex flex-wrap gap-4">
 
-    </x-header>
-    </div>
+            <a href="{{ route('admin.blog.posts.index') }}" class="flex-grow">
+                <x-stat title="{{ __('Posts') }}" description="" value="{{ $posts->count() }}" icon="s-document-text"
+                    class="shadow-hover" />
+            </a>
 
 
-    @if ($posts->count() > 0)
-    <x-card>
-        <div class="w-full overflow-x-auto">
-            <x-table
-                striped
-                :headers="$headers"
-                :rows="$posts"
-                per-page="perPage"
-                link="#">
-                @scope('header_comments_count', $header)
-                {{ $header['label'] }}
-                <x-icon name="c-chat-bubble-left" />
-                @endscope
 
-                @scope('cell_user.name', $post)
-                {{ $post->user->name }}
-                @endscope
-                @scope('cell_category.title', $post)
-                {{ $post->category->title }}
-                @endscope
-                @scope('cell_comments_count', $post)
-                @if ($post->comments_count > 0)
-                <x-badge value="{{ $post->comments_count }}" class="badge-primary" />
-                @endif
-                @endscope
-                @scope('cell_active', $post)
-                @if ($post->active)
-                <x-icon name="o-check-circle" />
-                @endif
-                @endscope
+        </x-slot:content>
+    </x-collapse>
+
+<br>
+
+    <x-collapse class="shadow-md">
+        <x-slot:heading>
+            @lang('Recent posts')
+        </x-slot:heading>
+        <x-slot:content>
+            <x-table :headers="$headersPosts" :rows="$posts->take(5)" striped>
                 @scope('cell_date', $post)
-                @lang('Created') {{ $post->created_at->diffForHumans() }}
-                @if ($post->updated_at != $post->created_at)
-                <br>
-                @lang('Updated') {{ $post->updated_at->diffForHumans() }}
-                @endif
+                    @lang('Created') {{ $post->created_at->diffForHumans() }}
+                    @if ($post->updated_at != $post->created_at)
+                        <br>
+                        @lang('Updated') {{ $post->updated_at->diffForHumans() }}
+                    @endif
+                @endscope
+                @scope('actions', $post)
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}" spinner class="btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Show post')
+                        </x-slot:content>
+                    </x-popover>
                 @endscope
             </x-table>
-        </div>
-    </x-card>
-    @endif
+        </x-slot:content>
+    </x-collapse>
 </div>

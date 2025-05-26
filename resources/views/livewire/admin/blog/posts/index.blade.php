@@ -53,6 +53,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
             ->when($this->category_id, fn (Builder $q) => $q->where('category_id', $this->category_id))
             ->withAggregate('category', 'title')
             ->withcount('comments')
+            ->when('date' === $this->sortBy['column'], fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
             ->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
             ->latest()
             ->paginate(6);
@@ -67,7 +68,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 		$clonedPost->active = false;
 		$clonedPost->save();
 
-        redirect()->route('blog.posts.edit', $clonedPost->slug);
+        redirect()->route('admin.blog.posts.edit', $clonedPost->slug);
 }
 		// Ici on redirigera vers le formulaire de modification de l'article cloné
 
@@ -94,7 +95,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
             <x-slot:actions>
                 <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
-                    link="{{ route('admin') }}" />
+                    link="{{ route('admin.dashboard') }}" />
             </x-slot:actions>
         </x-slot:actions>
     </x-header>

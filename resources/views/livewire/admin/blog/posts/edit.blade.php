@@ -119,7 +119,7 @@ class extends Component {
                 <img src="{{ asset('storage/photos/' . $post->image) }}" class="h-40" />
             </x-file>
             <x-slot:actions>
-                <x-button label="{{ __('Preview') }}" icon="m-sun" link="{{ '/posts/' . $post->slug }}" external
+                <x-button label="{{ __('Preview') }}" icon="m-sun" link="{{ '/blog/posts/' . $post->slug }}" external
                     class="btn-outline" />
                 <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
                     class="btn-primary" />

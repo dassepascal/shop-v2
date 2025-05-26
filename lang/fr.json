@@ -626,5 +626,11 @@
     "Clone this post": "Dupliquer cet article",
     "Dashboard blog": "Tableau de bord du blog",
     "All categories": "Toutes les catégories",
-    "Add a category": "Ajouter une catégorie"
+    "Add a category": "Ajouter une catégorie",
+    "Are you sure to delete this category?": "Etes-vous sûr de vouloir supprimer cette catégorie ?",
+    "Category deleted with success.": "Catégorie supprimée avec succès.",
+    "Create a new category": "Créer une nouvelle catégorie",
+    "Category created with success.": "Catégorie créée avec succès.",
+    "Category updated successfully.": "Catégorie mise à jour avec succès.",
+    "Edit a category": "Modifier une catégorie"
 }
