@@ -46,4 +46,8 @@ class Comment extends Model
 	{
 		return $this->hasMany(Comment::class, 'parent_id');
 	}
+    public function getDepth(): int
+	{
+		return $this->parent ? $this->parent->getDepth() + 1 : 0;
+	}
 }

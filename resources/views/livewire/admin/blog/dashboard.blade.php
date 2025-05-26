@@ -1,14 +1,15 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use Mary\Traits\Toast;
+use App\Models\Comment;
+use App\Models\BlogPage;
 use Livewire\Volt\Component;
 use App\Repositories\PostRepository;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\{Layout, Title};
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\BlogPage;
-use App\Models\User;
 
 
 new
@@ -43,6 +44,8 @@ new
                 'posts' => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when($isRedac, fn(Builder $q) => $q->where('user_id', $userId))->latest()->get(),
                 'pages' => BlogPage::all(),
                 'users' => User::count(),
+                'commentsNumber' => Comment::when($isRedac, fn(Builder $q) => $q->whereRelation('post', 'user_id', $userId))->count(),
+                'comments'       => Comment::with('user', 'post:id,title,slug')->when($isRedac, fn(Builder $q) => $q->whereRelation('post', 'user_id', $userId))->latest()->take(5)->get(),
             ];
         }
     }; ?>
@@ -66,12 +69,27 @@ new
                 <x-stat title="{{ __('Users') }}" value="{{ $users }}" icon="s-user"
                     class="shadow-hover" />
             </a>
+            <a href="{{ route('admin.blog.comments.index') }}" class="flex-grow">
+                <x-stat title="{{ __('Comments') }}" value="{{ $commentsNumber }}" icon="c-chat-bubble-left"
+                    class="shadow-hover" />
+            </a>
 
 
         </x-slot:content>
     </x-collapse>
 
     <br>
+    @foreach ($comments as $comment)
+    @if (!$comment->user->valid)
+    <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}" description="{!! $comment->body !!}" icon="c-chat-bubble-left"
+        class="shadow-md alert-warning">
+        <x-slot:actions>
+            <x-button link="{{ route('admin.blog.comments.index') }}" label="{!! __('Show the comments') !!}" />
+        </x-slot:actions>
+    </x-alert>
+    <br>
+    @endif
+    @endforeach
 
     <x-collapse class="shadow-md">
         <x-slot:heading>

@@ -37,13 +37,12 @@ new class extends Component {
         <x-menu-item title="{{ __('Blog') }}" icon="o-newspaper" link="{{ route('blog.index') }}" />
 
         <x-menu-separator />
+        <!-- add contact -->
+
 
         @if ($this->isBlogPage())
-            <!-- Contenu -->
-            @auth
-                <x-menu-item title="{{ __('Create a post') }}" icon="o-pencil" link="#" />
-            @endauth
 
+<x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
             <!-- Menus dynamiques pour les catégories -->
             <x-dropdown label="Categories" class="btn-outline font-bold border flex items-center justify-center hover:text-gray-700 hover:bg-gray-100">
                 @foreach ($menus as $menu)
@@ -93,5 +92,5 @@ new class extends Component {
         @else
             <x-menu-item title="{{ __('Login') }}" icon="o-arrow-right-on-rectangle" link="/login" />
         @endif
-    </x-menu>
+    </x-menu-item>
 </div>

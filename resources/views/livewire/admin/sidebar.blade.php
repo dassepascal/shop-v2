@@ -34,11 +34,11 @@ new class extends Component {
                     @include('livewire.admin.blog.sidebar')
                 @endif
             </aside>
-            <main class="flex-1 p-6">
+            <main class="flex-1 p-6 bg-red-500">
                 {{ $slot }}
             </main>
         </div>
     </x-menu>
 
-   
+
 </div>
