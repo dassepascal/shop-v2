@@ -23,9 +23,14 @@
                 <x-menu-item title="{{ __('Add a page') }}" link="{{ route('admin.blog.pages.create') }}" />
             </x-menu-sub>
             <x-menu-item icon="s-user" title="{{ __('Accounts') }}" link="{{ route('admin.blog.users.index') }}" />
-        @endif
-        <x-menu-item icon="c-chat-bubble-left" title="{{ __('Comments') }}"
+            <x-menu-item icon="c-chat-bubble-left" title="{{ __('Comments') }}"
             link="{{ route('admin.blog.comments.index') }}" />
+        <x-menu-sub title="{{ __('Menus') }}" icon="m-list-bullet">
+            <x-menu-item title="{{ __('Navbar') }}" link="{{ route('admin.blog.menus.index') }}" />
+
+        </x-menu-sub>
+        @endif
+
         <x-menu-separator />
         <x-menu-item title="{{ __('Settings') }}" icon="s-cog-8-tooth" link="#" />
         <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on blog') }}" link="/blog" />

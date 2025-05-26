@@ -661,5 +661,20 @@
     "Answer created with success.": "Reponse ajoutée avec succès.",
     "Comment to valid from ": "Commentaire à valider de ",
     "Show the comments": "Voir les commentaires",
-    "Page deleted": "Page supprimée"
+    "Page deleted": "Page supprimée",
+    "Navbar": "Navigation",
+    "Submenus": "Sous-menus",
+    "Edit a submenu": "Modifier un sous-menu",
+    "Create a new menu": "Créer un nouveau menu",
+    "Are you sure to delete this menu?": "Êtes-vous sûr de vouloir supprimer ce menu ?",
+    "Menu created with success.": "Menu ajouté avec succès.",
+    "Menu updated with success.": "Menu mis à jour avec succès.",
+    "Edit a menu": "Modifier un menu",
+    "Create a new submenu": "Créer un nouveau sous-menu",
+    "Are you sure to delete this submenu?": "Êtes-vous sûr de vouloir supprimer ce sous-menu ?",
+    " deleted with success.": " supprimé avec succès.",
+    "Submenu": "Sous-menu",
+
+    "Link": "Lien",
+    "Select a post, type to search": "Sélectionnez un article, tapez pour rechercher"
 }

@@ -106,6 +106,10 @@ Route::middleware('auth')->group(function () {
             Volt::route('/users/{user}/edit', 'admin.blog.users.edit')->name('admin.blog.users.edit');
             Volt::route('/comments/index', 'admin.blog.comments.index')->name('admin.blog.comments.index');
             Volt::route('/comments/{comment}/edit', 'admin.blog.comments.edit')->name('admin.blog.comments.edit');
+            Volt::route('/menus/index', 'admin.blog.menus.index')->name('admin.blog.menus.index');
+            Volt::route('/menus/create', 'admin.blog.menus.create')->name('admin.blog.menus.create');
+            Volt::route('/menus/{menu}/edit', 'admin.blog.menus.edit')->name('admin.blog.menus.edit');
+            Volt::route('/submenus/{submenu}/edit', 'admin.blog.menus.editsub')->name('admin.blog.submenus.edit');
 
         });
     });

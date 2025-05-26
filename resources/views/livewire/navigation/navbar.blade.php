@@ -102,12 +102,7 @@ new class extends Component {
                             @if ($menu->submenus->isNotEmpty())
                                 <x-menu-sub title="{{ $menu->label }}" class="btn-ghost">
                                     @foreach ($menu->submenus as $submenu)
-                                        <x-menu-item
-                                            title="{{ $submenu->label }}"
-                                            link="{{ Str::replace('/posts/', '/blog/posts/', $submenu->link) }}"
-
-                                            style="min-width: max-content;"
-                                        />
+                                    <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}" />
                                     @endforeach
 
                                 </x-menu-sub>
