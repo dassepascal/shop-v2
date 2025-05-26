@@ -82,7 +82,10 @@ class extends Component {
 <div>
     <div class="bg-red-500">
         <x-header title="{{ __('Edit a post') }}" separator progress-indicator>
-
+            <x-slot:actions>
+                <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                    link="{{ route('admin.blog.dashboard') }}" />
+            </x-slot:actions>
         </x-header>
     </div>
 

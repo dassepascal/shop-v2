@@ -92,7 +92,10 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
     <x-header title="{{ __('Posts') }}" separator progress-indicator>
         <x-slot:actions>
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
-           
+            <x-slot:actions>
+                <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                    link="{{ route('admin') }}" />
+            </x-slot:actions>
         </x-slot:actions>
     </x-header>
     <x-collapse>
@@ -109,7 +112,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 
     @if ($posts->count() > 0)
     <x-card>
-        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit" with-pagination>
+        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/blog/posts/{slug}/edit" with-pagination>
             @scope('header_comments_count', $header)
             {{ $header['label'] }}
             <x-icon name="c-chat-bubble-left" />
