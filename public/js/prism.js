@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
 /* PrismJS 1.30.0
 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
 var _self =

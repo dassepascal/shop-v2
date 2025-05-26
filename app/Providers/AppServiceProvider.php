@@ -1,38 +1,35 @@
 <?php
-
 namespace App\Providers;
 
 use App\Models\Shop;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Models\Menu;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        if(app()->runningInConsole()) {
-            return;
+        if (!app()->runningInConsole()) {
+            View::share('shop', Shop::firstOrFail());
         }
-        
-        View::share('shop', Shop::firstOrFail());
 
-        // Custom Blade Directives Helpers pour la lettre majuscule dans les traductions
-
-        Blade::directive(name: 'langL', handler: function ($expression) {
+        \Illuminate\Support\Facades\Blade::directive('langL', function ($expression) {
             return "<?= transL({$expression}); ?>";
         });
-    }
-    }
 
+        View::composer(['components.layouts.app' ], function ($view) {
+            $view->with(
+                'menus',
+                Menu::with(['submenus' => function ($query) {
+                    $query->orderBy('order');
+                }])->orderBy('order')->get()
+            );
+        });
+    }
+}

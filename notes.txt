@@ -12,4 +12,17 @@ dans le fichier phpunit.xml -> decocher
  <env name="DB_CONNECTION" value="sqlite"/>
          <env name="DB_DATABASE" value=":memory:"/>
 
-         
+
+Un peu de sécurité
+Il ne vous a sans doute pas échapé qu'on affiche le contenu des commentaires avec une syntaxe plutôt permissive :
+
+{!! nl2br($comment->body) !!}
+nl2br($comment->body) :
+   Cette partie du code prend le texte du commentaire ($comment->body) et applique la fonction nl2br pour convertir les sauts de ligne en balises <br>.
+
+{!! nl2br($comment->body) !!} :
+   Ensuite, le résultat de nl2br($comment->body) est affiché dans la vue sans échapper les caractères spéciaux HTML. Cela signifie que si le texte du commentaire contient des balises HTML, elles seront interprétées et rendues par le navigateur.
+
+Utiliser {!! !!} peut être dangereux si le contenu n'est pas sécurisé, car cela peut permettre l'injection de code HTML ou JavaScript malveillant (XSS). On devrait s'assurer le contenu est sécurisé avant de l'afficher de cette manière. Pour le moment il ne l'est pas.
+
+Le plus simple est d'utiliser HTML Purifier.

@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @mixin IdeHelperUser
@@ -25,7 +26,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'firstname', 'email', 'password', 'newsletter', 'valid', 'role',
+        'name',
+        'firstname',
+        'email',
+        'password',
+        'newsletter',
+        'valid',
+        'role',
     ];
 
     /**
@@ -68,8 +75,28 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function posts(): HasMany
+    public function isRedac(): bool
 	{
-		return $this->hasMany(Post::class);
+		return 'redac' === $this->role;
 	}
+
+	public function isAdminOrRedac(): bool
+	{
+		return 'admin' === $this->role || 'redac' === $this->role;
+	}
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function favoritePosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'favorites');
+    }
 }

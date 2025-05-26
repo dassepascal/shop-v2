@@ -14,13 +14,13 @@
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
     {{-- NAVBAR mobile only --}}
-    <livewire:navigation.navbar />
+    <livewire:navigation.navbar :menus="$menus" />
 
     {{-- MAIN --}}
     <x-main full-width>
         {{-- SIDEBAR --}}
         <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit lg:hidden">
-            <livewire:navigation.sidebar />
+            <livewire:navigation.sidebar :menus="$menus" />
         </x-slot:sidebar>
 
         {{-- The `$slot` goes here --}}

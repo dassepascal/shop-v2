@@ -9,11 +9,13 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
         "bestmomo/nice-artisan": "^1.8",
+        "creativeorange/gravatar": "~1.0",
         "darryldecode/cart": "^4.2",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
+        "mews/purifier": "^3.4",
         "robsontenorio/mary": "^1.41",
         "stripe/stripe-php": "^16.4"
     },
