@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
             Volt::route('/customers/{user}', 'admin.shop.customers.show')->name('admin.shop.customers.show');
             Volt::route('/addresses', 'admin.shop.customers.addresses')->name('admin.addresses');
             Volt::route('/store', 'admin.shop.parameters.store')->name('admin.shop.parameters.store');
-            Volt::route('/states', 'admin.parameters.states.index')->name('admin.shop.parameters.states.index');
+            Volt::route('/states', 'admin.shop.parameters.states.index')->name('admin.shop.parameters.states.index');
             Volt::route('/states/create', 'admin.shop.parameters.states.create')->name('admin.shop.parameters.states.create');
             Volt::route('/states/{state}/edit', 'admin.shop.parameters.states.edit')->name('admin.shop.parameters.states.edit');
             Volt::route('/countries', 'admin.shop.parameters.countries.index')->name('admin.shop.parameters.countries.index');
