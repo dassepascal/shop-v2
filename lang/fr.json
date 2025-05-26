@@ -503,7 +503,7 @@
     "Page deleted successfully.": "Page supprimée avec succès.",
     "Enter page title": "Entrez le titre de la page",
     "Text": "Texte",
-    "Edit a page": "Modification d'une page",
+
     "Page updated successfully.": "Page mise à jour avec succès.",
     "Weight ranges": "Plages de poids",
     "Maximum weight": "Poids maximum",
@@ -606,7 +606,6 @@
     "Remove from favorites": "Supprimer des favoris",
     "View comments": "Voir les commentaires",
     "Post comment": "Commenter article",
-
     "Author": "Auteur",
     "Updated": "Mis à jour",
     "Category": "Catégorie",
@@ -632,5 +631,11 @@
     "Create a new category": "Créer une nouvelle catégorie",
     "Category created with success.": "Catégorie créée avec succès.",
     "Category updated successfully.": "Catégorie mise à jour avec succès.",
-    "Edit a category": "Modifier une catégorie"
+    "Edit a category": "Modifier une catégorie",
+    "All pages": "Toutes les pages",
+    "Add a page": "Ajouter une page",
+    "Are you sure to delete this page?": "Êtes-vous sûr de vouloir supprimer cette page ?",
+    "Page added with success.": "Page ajoutée avec succès.",
+    "Page edited with success.": "Page mise à jour avec succès.",
+    "Edit a page": "Modifier une page"
 }

@@ -99,6 +99,9 @@ Route::middleware('auth')->group(function () {
             Volt::route('/categories', 'admin.blog.categories.index')->name('admin.blog.categories.index');
             Volt::route('/categories/create', 'admin.blog.categories.create')->name('admin.blog.categories.create');
             Volt::route('/categories/{category}/edit', 'admin.blog.categories.edit')->name('admin.blog.categories.edit');
+            Volt::route('/pages/index', 'admin.blog.pages.index')->name('admin.blog.pages.index');
+            Volt::route('/pages/create', 'admin.blog.pages.create')->name('admin.blog.pages.create');
+            Volt::route('/pages/{page:slug}/edit', 'admin.blog.pages.edit')->name('admin.blog.pages.edit');
         });
     });
 });
