@@ -90,7 +90,7 @@ new class extends Component {
         @if (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
         <x-popover>
             <x-slot:trigger>
-                <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner
+                <x-button icon="c-pencil-square" link="{{ route('admin.blog.posts.edit', $post) }}" spinner
                     class="btn-ghost btn-sm" />
             </x-slot:trigger>
             <x-slot:content class="pop-small">

@@ -53,6 +53,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
             ->when($this->category_id, fn (Builder $q) => $q->where('category_id', $this->category_id))
             ->withAggregate('category', 'title')
             ->withcount('comments')
+            ->when('date' === $this->sortBy['column'], fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
             ->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
             ->latest()
             ->paginate(6);
@@ -67,7 +68,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 		$clonedPost->active = false;
 		$clonedPost->save();
 
-        redirect()->route('blog.posts.edit', $clonedPost->slug);
+        redirect()->route('admin.blog.posts.edit', $clonedPost->slug);
 }
 		// Ici on redirigera vers le formulaire de modification de l'article cloné
 
@@ -92,7 +93,10 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
     <x-header title="{{ __('Posts') }}" separator progress-indicator>
         <x-slot:actions>
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
-           
+            <x-slot:actions>
+                <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                    link="{{ route('admin.dashboard') }}" />
+            </x-slot:actions>
         </x-slot:actions>
     </x-header>
     <x-collapse>
@@ -109,7 +113,7 @@ new #[Title('List Posts'), Layout('components.layouts.admin')] class extends Com
 
     @if ($posts->count() > 0)
     <x-card>
-        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit" with-pagination>
+        <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/blog/posts/{slug}/edit" with-pagination>
             @scope('header_comments_count', $header)
             {{ $header['label'] }}
             <x-icon name="c-chat-bubble-left" />
