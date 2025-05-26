@@ -11,7 +11,7 @@
             <x-menu-item title="{{ __('All posts') }}" link="{{ route('admin.blog.posts.index') }}" />
             <x-menu-item title="{{ __('Add a post') }}" link="{{ route('admin.blog.posts.create') }}" />
             @if (Auth::user()->isAdmin())
-                <x-menu-item title="{{ __('Categories') }}" link="{{ route('categories.index') }}" />
+                <x-menu-item title="{{ __('Categories') }}" link="{{ route('admin.blog.categories.index') }}" />
             @endif
 
 
@@ -19,10 +19,10 @@
 
         @if (Auth::user()->isAdmin())
             <x-menu-sub title="{{ __('Pages') }}" icon="s-document">
-                <x-menu-item title="{{ __('All pages') }}" link="{{ route('pages.index') }}" />
-                <x-menu-item title="{{ __('Add a page') }}" link="{{ route('pages.create') }}" />
+                <x-menu-item title="{{ __('All pages') }}" link="{{ route('admin.blog.pages.index') }}" />
+                <x-menu-item title="{{ __('Add a page') }}" link="{{ route('admin.blog.pages.create') }}" />
             </x-menu-sub>
-            <x-menu-item icon="s-user" title="{{ __('Accounts') }}" link="{{ route('users.index') }}" />
+            <x-menu-item icon="s-user" title="{{ __('Accounts') }}" link="{{ route('admin.blog.users.index') }}" />
         @endif
         <x-menu-item icon="c-chat-bubble-left" title="{{ __('Comments') }}"
             link="{{ route('admin.blog.comments.index') }}" />
