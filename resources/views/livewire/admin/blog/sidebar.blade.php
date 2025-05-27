@@ -27,6 +27,7 @@
             link="{{ route('admin.blog.comments.index') }}" />
         <x-menu-sub title="{{ __('Menus') }}" icon="m-list-bullet">
             <x-menu-item title="{{ __('Navbar') }}" link="{{ route('admin.blog.menus.index') }}" />
+            <x-menu-item icon="c-photo" title="{{ __('Images') }}" link="{{ route('admin.blog.images.index') }}" />
 
         </x-menu-sub>
         @endif

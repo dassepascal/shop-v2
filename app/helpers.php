@@ -1,5 +1,11 @@
 <?php
 
+function replaceAbsoluteUrlsWithRelative($content)
+{
+    $baseUrl = config('app.url');
+    return preg_replace('/(href|src)=["\']' . preg_quote($baseUrl, '/') . '([^"\']+)["\']/', '$1="$2"', $content);
+}
+
 if (!function_exists('price_without_vat')) {
 
     function price_without_vat(float $price_with_vat, int $vat_rate = 20): float
@@ -95,19 +101,19 @@ if (!function_exists('price_without_vat')) {
             return $start->copy()->addSeconds($randomSeconds);
         }
     }
-    if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
-        function replaceAbsoluteUrlsWithRelative(string $content)
-        {
-            $baseUrl = url('/');
+    // if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
+    //     function replaceAbsoluteUrlsWithRelative(string $content)
+    //     {
+    //         $baseUrl = url('/');
 
-            if ('/' !== substr($baseUrl, -1)) {
-                $baseUrl .= '/';
-            }
+    //         if ('/' !== substr($baseUrl, -1)) {
+    //             $baseUrl .= '/';
+    //         }
 
-            $pattern     = '/<img\s+[^>]*src="(?:https?:\/\/)?' . preg_quote(parse_url($baseUrl, PHP_URL_HOST), '/') . '\/([^"]+)"/i';
-            $replacement = '<img src="/$1"';
+    //         $pattern     = '/<img\s+[^>]*src="(?:https?:\/\/)?' . preg_quote(parse_url($baseUrl, PHP_URL_HOST), '/') . '\/([^"]+)"/i';
+    //         $replacement = '<img src="/$1"';
 
-            return preg_replace($pattern, $replacement, $content);
-        }
-    }
+    //         return preg_replace($pattern, $replacement, $content);
+    //     }
+    // }
 }

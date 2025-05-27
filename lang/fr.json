@@ -676,5 +676,13 @@
     "Submenu": "Sous-menu",
 
     "Link": "Lien",
-    "Select a post, type to search": "Sélectionnez un article, tapez pour rechercher"
+    "Select a post, type to search": "Sélectionnez un article, tapez pour rechercher",
+    "Select year and month": "Sélectionner l'année et le mois",
+    "Year": "Année",
+    "Month": "Mois",
+    "Path": "Chemin",
+    "Copy url": "Copier l'URL",
+    "Manage image": "Gérer l'image",
+    "Delete image": "Supprimer l'image",
+    "Image deleted with success.": "Image supprimée avec succès."
 }

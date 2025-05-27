@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
             Volt::route('/menus/create', 'admin.blog.menus.create')->name('admin.blog.menus.create');
             Volt::route('/menus/{menu}/edit', 'admin.blog.menus.edit')->name('admin.blog.menus.edit');
             Volt::route('/submenus/{submenu}/edit', 'admin.blog.menus.editsub')->name('admin.blog.submenus.edit');
+            Volt::route('/images/index', 'admin.blog.images.index')->name('admin.blog.images.index');
 
         });
     });
