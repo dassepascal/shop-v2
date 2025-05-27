@@ -161,7 +161,7 @@ class extends Component {
                     <x-popover>
                         <x-slot:trigger>
                             <x-button icon="c-wrench"
-                                link="#"
+                                link="{{ route('admin.blog.images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}"
                                 class="text-blue-500 btn-ghost btn-sm" spinner />
                         </x-slot:trigger>
                         <x-slot:content class="pop-small">
