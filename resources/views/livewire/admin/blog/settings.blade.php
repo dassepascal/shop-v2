@@ -59,10 +59,18 @@ class extends Component {
 
 	public function updatedMaintenance(): void
 	{
-		if ($this->maintenance) {
-			Artisan::call('down', ['--secret' => env('APP_MAINTENANCE_SECRET_BLOG')]);
-		} else {
-			Artisan::call('up');
+		try {
+			if ($this->maintenance) {
+				$secret = env('APP_MAINTENANCE_SECRET_BLOG');
+				if (!$secret) {
+					throw new \Exception('La clé APP_MAINTENANCE_SECRET_BLOG est manquante dans le fichier .env.');
+				}
+				Artisan::call('down', ['--secret' => $secret]);
+			} else {
+				Artisan::call('up');
+			}
+		} catch (\Exception $e) {
+			$this->error(__('Une erreur est survenue : ') . $e->getMessage());
 		}
 	}
 
