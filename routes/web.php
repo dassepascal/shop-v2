@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function () {
             Volt::route('/submenus/{submenu}/edit', 'admin.blog.menus.editsub')->name('admin.blog.submenus.edit');
             Volt::route('/images/index', 'admin.blog.images.index')->name('admin.blog.images.index');
             Volt::route('/images/{year}/{month}/{id}/edit', 'admin.blog.images.edit')->name('admin.blog.images.edit');
+            Volt::route('/settings', 'admin.blog.settings')->name('admin.blog.settings');
 
         });
     });

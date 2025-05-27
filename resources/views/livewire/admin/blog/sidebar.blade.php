@@ -30,10 +30,11 @@
             <x-menu-item icon="c-photo" title="{{ __('Images') }}" link="{{ route('admin.blog.images.index') }}" />
 
         </x-menu-sub>
+        <x-menu-item icon="m-cog-8-tooth" title="{{ __('Settings') }}" link="{{ route('admin.blog.settings') }}" :class="App::isDownForMaintenance() ? 'bg-red-300' : ''" />
         @endif
 
         <x-menu-separator />
-        <x-menu-item title="{{ __('Settings') }}" icon="s-cog-8-tooth" link="#" />
+      
         <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on blog') }}" link="/blog" />
         <x-menu-item>
             <x-theme-toggle />
