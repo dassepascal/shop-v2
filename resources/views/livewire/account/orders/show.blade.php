@@ -3,6 +3,7 @@
 use App\Models\Order;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Storage;
 
 new #[Title('Show order')]
 class extends Component {
@@ -14,7 +15,7 @@ class extends Component {
         if(auth()->user()->id != $order->user_id) {
             abort(403);
         }
-        
+
         $this->order = $order;
     }
 
@@ -39,8 +40,8 @@ class extends Component {
         <x-card class="w-full sm:min-w-[50vw]" title="{{ __('State') }}" shadow separator progress-indicator >
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                 <p class="mb-2 sm:mb-0 sm:mr-4"><strong>@lang('Payment method') :</strong> {{ $order->payment_text }}</p>
-                <x-badge value="{{ $order->state->name }}" class="p-3 bg-{{ $order->state->color }}-400 self-start sm:self-center" />                
-            </div>            
+                <x-badge value="{{ $order->state->name }}" class="p-3 bg-{{ $order->state->color }}-400 self-start sm:self-center" />
+            </div>
             @if($order->state->slug === 'carte' || $order->state->slug === 'erreur')
                 <br>
                 <x-alert title="{!! __('You were unable to make your credit card payment.') !!}" description="{{ __('Please contact us.') }}" icon="o-exclamation-triangle" class="alert-warning" />
