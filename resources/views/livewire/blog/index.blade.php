@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Category;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
@@ -8,11 +9,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 new class extends Component {
     use WithPagination;
 
-    public ?Category $category = null;
-    public string $param = '';
 
+
+
+    public ?Category $category = null;
+
+    public string $param       = '';
     public function mount(string $slug = '', string $param = ''): void
     {
+
         $this->param = $param;
 
         if (request()->is('category/*')) {
@@ -36,13 +41,12 @@ new class extends Component {
         return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
     }
 
+
     public function with(): array
     {
         return ['posts' => $this->getPosts()];
     }
-};
-?>
-
+}; ?>
 <div>
 <livewire:blog-hero />
 
@@ -62,18 +66,6 @@ new class extends Component {
 
         <div class="container mx-auto">
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-<<<<<<< HEAD
-                @forelse ($posts as $post)
-                    <x-card
-                        class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
-                        title="{!! $post->title !!}">
-                        <div class="text-justify">{!! str(strip_tags($post->excerpt))->words(config('app.excerptSize')) !!}</div>
-                        <br>
-                        <hr>
-                        <div class="flex justify-between">
-                            <p class="text-left cursor-pointer">{{ $post->user->name }}</p>
-                            <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
-=======
                 @forelse($posts as $post)
                 <x-card
                     class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
@@ -121,55 +113,25 @@ new class extends Component {
                                     @lang('Read this post')
                                 </x-slot:content>
                             </x-popover>
->>>>>>> master
                         </div>
-                        @if ($post->image)
-                            <x-slot:figure>
-                                <a href="{{ route('posts.show', $post->slug) }}">
-                                    <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
-                                </a>
-                            </x-slot:figure>
-                        @endif
-                        <x-slot:menu>
-                            @if ($post->pinned)
-                                <x-badge value="{{ __('Pinned') }}" class="p-3 badge-warning" />
-                            @endif
-                        </x-slot:menu>
-                        <x-slot:actions>
-                            <div class="flex flex-col items-end space-y-2 sm:items-start sm:flex-row sm:space-y-0 sm:space-x-2">
-                                <x-popover>
-                                    <x-slot:trigger>
-                                        <x-button label="{{ $post->category->title }}"
-                                            link="{{ route('blog.index', ['slug' => $post->category->slug]) }}" class="mt-1 btn-outline btn-sm" />
-                                    </x-slot:trigger>
-                                    <x-slot:content class="pop-small">
-                                        @lang('Show this category')
-                                    </x-slot:content>
-                                </x-popover>
-                                <x-popover>
-                                    <x-slot:trigger>
-                                        <x-button label="{{ __('Read') }}" link="{{ route('posts.show', $post->slug) }}"
-                                            class="mt-1 btn-outline btn-sm" />
-                                    </x-slot:trigger>
-                                    <x-slot:content class="pop-small">
-                                        @lang('Read this post')
-                                    </x-slot:content>
-                                </x-popover>
-                            </div>
-                        </x-slot:actions>
-                    </x-card>
+                    </x-slot:actions>
+                </x-card>
                 @empty
-                    <div class="col-span-3">
-                        <x-card title="{{ __('Nothing to show !') }}">
-                            {{ __('No Post found with these criteria') }}
-                        </x-card>
-                    </div>
+                <div class="col-span-3">
+                    <x-card title="{{ __('Nothing to show !') }}">
+                        {{ __('No Post found with these criteria') }}
+                    </x-card>
+                </div>
                 @endforelse
             </div>
         </div>
+
+
+        <!-- Pagination inférieure -->
         <div class="mb-4 mary-table-pagination">
             <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
             {{ $posts->links() }}
         </div>
+
     </div>
 </div>
