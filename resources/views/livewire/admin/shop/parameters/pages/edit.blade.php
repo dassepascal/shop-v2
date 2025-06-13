@@ -27,7 +27,7 @@ class extends Component
 
         $this->page->update($data);
 
-        $this->success(__('Page updated successfully.'), redirectTo: '/admin/pages');
+        $this->success(__('Page updated successfully.'), redirectTo: '/admin/shop/pages');
     }
 
 }; ?>

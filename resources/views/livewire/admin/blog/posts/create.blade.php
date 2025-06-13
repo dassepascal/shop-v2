@@ -14,7 +14,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 {
     use WithFileUploads, Toast;
 
-    #[Rule('required|image|max:2000')]
+    #[Rule('nullable|image|max:2000')]
     public ?TemporaryUploadedFile $photo = null;
 
     public int $category_id;
@@ -105,6 +105,7 @@ new #[Layout('components.layouts.admin')] class extends Component
             // Log l'erreur pour le débogage
             \Log::error('Error saving post: ' . $e->getMessage());
         }
+        return redirect()->route('admin.blog.posts.index');
     }
 
     public function with(): array

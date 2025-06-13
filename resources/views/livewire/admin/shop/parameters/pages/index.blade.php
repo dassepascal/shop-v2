@@ -66,7 +66,7 @@ class extends Component
             :headers="$headers"
             :rows="$pages"
             :sort-by="$sortBy"
-            link="/admin/pages/{id}/edit"
+            link="/admin/shop/pages/{id}/edit"
         >
             @scope('actions', $page)
                 <x-popover>

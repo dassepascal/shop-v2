@@ -15,7 +15,11 @@ class extends Component {
 		return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'active', 'label' => __('Published')]];
 	}
 
-
+	public function deletePage(BlogPage $page): void
+	{
+		$page->delete();
+		$this->success(__('Page deleted'));
+	}
 
 	public function with(): array
 	{

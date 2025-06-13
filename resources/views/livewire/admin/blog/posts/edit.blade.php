@@ -75,12 +75,16 @@ class extends Component {
             ],
         );
 
+
+
         $this->success(__('Post updated with success.'));
+        return redirect()->route('admin.blog.posts.index');
     }
+
 }; ?>
 
 <div>
-    <div class="bg-red-500">
+    <div >
         <x-header title="{{ __('Edit a post') }}" separator progress-indicator>
             <x-slot:actions>
                 <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"

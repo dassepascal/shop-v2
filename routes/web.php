@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
             Volt::route('/customers/{user}', 'admin.shop.customers.show')->name('admin.shop.customers.show');
             Volt::route('/addresses', 'admin.shop.customers.addresses')->name('admin.addresses');
             Volt::route('/store', 'admin.shop.parameters.store')->name('admin.shop.parameters.store');
-            Volt::route('/states', 'admin.parameters.states.index')->name('admin.shop.parameters.states.index');
+            Volt::route('/states', 'admin.shop.parameters.states.index')->name('admin.shop.parameters.states.index');
             Volt::route('/states/create', 'admin.shop.parameters.states.create')->name('admin.shop.parameters.states.create');
             Volt::route('/states/{state}/edit', 'admin.shop.parameters.states.edit')->name('admin.shop.parameters.states.edit');
             Volt::route('/countries', 'admin.shop.parameters.countries.index')->name('admin.shop.parameters.countries.index');
@@ -101,6 +101,18 @@ Route::middleware('auth')->group(function () {
             Volt::route('/pages/index', 'admin.blog.pages.index')->name('admin.blog.pages.index');
             Volt::route('/pages/create', 'admin.blog.pages.create')->name('admin.blog.pages.create');
             Volt::route('/pages/{page:slug}/edit', 'admin.blog.pages.edit')->name('admin.blog.pages.edit');
+            Volt::route('/users/index', 'admin.blog.users.index')->name('admin.blog.users.index');
+            Volt::route('/users/{user}/edit', 'admin.blog.users.edit')->name('admin.blog.users.edit');
+            Volt::route('/comments/index', 'admin.blog.comments.index')->name('admin.blog.comments.index');
+            Volt::route('/comments/{comment}/edit', 'admin.blog.comments.edit')->name('admin.blog.comments.edit');
+            Volt::route('/menus/index', 'admin.blog.menus.index')->name('admin.blog.menus.index');
+            Volt::route('/menus/create', 'admin.blog.menus.create')->name('admin.blog.menus.create');
+            Volt::route('/menus/{menu}/edit', 'admin.blog.menus.edit')->name('admin.blog.menus.edit');
+            Volt::route('/submenus/{submenu}/edit', 'admin.blog.menus.editsub')->name('admin.blog.submenus.edit');
+            Volt::route('/images/index', 'admin.blog.images.index')->name('admin.blog.images.index');
+            Volt::route('/images/{year}/{month}/{id}/edit', 'admin.blog.images.edit')->name('admin.blog.images.edit');
+            Volt::route('/settings', 'admin.blog.settings')->name('admin.blog.settings');
+
         });
     });
 });
