@@ -216,7 +216,7 @@ class extends Component {
 			File::delete($this->tempPath);
 		}
 
-		redirect()->route('images.index');
+		redirect()->route('admin.blog.images.index');
 	}
 
 	public function applyChanges(): void

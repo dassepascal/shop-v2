@@ -25,7 +25,7 @@ class AppBrand extends Component
             <a href="/" wire:navigate class="flex items-center">
                 <!-- Hidden when collapsed -->
                 <div {{ $attributes->class(['hidden-when-collapsed']) }}>
-                    <img src="{{ asset('storage/photos/wp-logo.jpg') }}" alt="Logo" class="h-auto w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24">
+                    <img src="{{ asset('storage/photos/wp-logo.png') }}" alt="Logo" class="h-auto w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24">
                 </div>
 
                 <!-- Display when collapsed -->
