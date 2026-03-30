@@ -98,6 +98,7 @@ new class extends Component {
 
                     <x-dropdown label="Categories"
                         class=" btn-outline font-bold border  flex items-center justify-center hover:text-gray-700 hover:bg-gray-100 ">
+                        <span class="text-white">
                         @foreach ($menus as $menu)
                             @if ($menu->submenus->isNotEmpty())
                                 <x-menu-sub title="{{ $menu->label }}" class="btn-ghost">
@@ -111,6 +112,7 @@ new class extends Component {
                                     class="btn-ghost " />
                             @endif
                         @endforeach
+                        </span>
                     </x-dropdown>
 
 
@@ -121,7 +123,7 @@ new class extends Component {
                                     class="btn-ghost h-10 flex items-center justify-center" />
                             </x-slot:trigger>
 
-                            <span class="text-black">
+                            <span class="text-white">
                                 @if ($user->isAdmin())
                                     <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin.dashboard') }}" />
                                 @endif
@@ -201,7 +203,7 @@ new class extends Component {
                                 <x-button label="{{ $user->name }} {{ $user->firstname }}"
                                     class="btn-ghost h-10 flex items-center justify-center" />
                             </x-slot:trigger>
-                            <span class="text-black">
+                            <span class="text-white">
                                 @if ($user->isAdmin())
                                     <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin.dashboard') }}" />
                                 @endif

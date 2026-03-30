@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 
@@ -10,125 +11,71 @@ class Invoice
     {
         $order->load('addresses', 'products', 'addresses.country', 'user');
 
-        // Adresse de facturation
         $addressOrder = $order->addresses->first();
 
-        $text = $addressOrder->address;
-        if($addressOrder->addressbis) {
-            $text .= "\n" . $addressOrder->addressbis;
+        // Adresse client
+        $address = $addressOrder->address;
+        if ($addressOrder->addressbis) {
+            $address .= ' ' . $addressOrder->addressbis;
+        }
+        if ($addressOrder->bp) {
+            $address .= ' ' . $addressOrder->bp;
         }
 
-        $invoice = [
-            'kind' => 'vat',
-            'test' => config('invoice.test') ? 'true' : 'false',
-            'title' => $order->payment == 'mandat' ? 'Engagement juridique ' . $order->purchase_order :  'Commande référence ' . $order->reference,
-            'buyer_street' => $text,
-            'buyer_country' => $addressOrder->country->name,
-            'buyer_post_code' => $addressOrder->postal,
-            'buyer_city' => $addressOrder->city,
-            'buyer_company' => $addressOrder->professionnal ? '1' : '0',
-            'payment_type' => $order->payment_text,
-            'payment_to' => now()->endOfMonth()->addMonth()->format('Y-m-d'),
-            'status' => $paid ? 'Payé' : 'Créé',
-        ];
-
-        // Bon de commande éventuel
-        if($order->payment === 'mandat') {
-            $invoice['oid'] = $order->purchase_order;
-        }
-
-        // Si la facture a été payée
-        if($paid) {
-            $invoice['paid'] = $order->totalOrder;
-        }
-
-        // Si c'est un professionnel
-        if($addressOrder->professionnal) {
-            $invoice['buyer_name'] = "$addressOrder->company";
-            if(isset($addressOrder->name)) {
-                $invoice['buyer_first_name'] = $addressOrder->firstname;
-                $invoice['buyer_last_name'] = $addressOrder->name;  
-            } else {
-                $invoice['buyer_first_name'] = $order->user->firstname;
-                $invoice['buyer_last_name'] = $order->user->name;     
-            }
+        // Nom client
+        if ($addressOrder->professionnal && $addressOrder->company) {
+            $clientName = $addressOrder->company;
         } else {
-            $invoice['buyer_first_name'] = $addressOrder->firstname;
-            $invoice['buyer_last_name'] = $addressOrder->name;
+            $clientName = trim(($addressOrder->firstname ?? '') . ' ' . ($addressOrder->name ?? ''));
+            if (!$clientName) {
+                $clientName = trim($order->user->firstname . ' ' . $order->user->name);
+            }
         }
 
-        // Adresse et boîte postale
-        $text = $addressOrder->address;
-        if($addressOrder->addressbis) {
-            $text .= " " . $addressOrder->addressbis;
-        }
-        if($addressOrder->bp) {
-            $text .= " " . $addressOrder->bp;
-        }
-        $invoice['buyer_street'] = $text;
-
-        // S'il y a une adresse de livraison
-        if($order->addresses->count() === 2) {
-            $invoice['use_delivery_address'] = true;
-            $addressdelivery = $order->addresses->get(1);
-            $text = '';
-            if(isset($addressdelivery->name)) {
-                $text .= "$addressdelivery->civility $addressdelivery->name $addressdelivery->firstname \n";
-            }
-            if($addressdelivery->company) {
-                $text .= $addressdelivery->company . "\n";
-            }
-            $text .= $addressdelivery->address . "\n";
-            if($addressdelivery->addressbis) {
-                $text .= $addressdelivery->addressbis . "\n";
-            }
-            if($addressdelivery->bp) {
-                $text .= 'BP ' . $addressdelivery->bp . "\n";
-            }
-            $text .= "$addressdelivery->postal $addressdelivery->city" . "\n";
-            $text .= $addressdelivery->country->name . "\n";
-            $invoice['delivery_address'] = $text;
-        }
-        
-        // Taxe
-        if($order->pick) {
-            $tax = .2;
+        // TVA
+        if ($order->pick) {
+            $tvaRate = 20;
         } else {
-            if(isset($addressdelivery)) {
-                $tax = $addressdelivery->country->tax;
-            } else {
-                $tax = $addressOrder->country->tax;
-            }
+            $deliveryAddress = $order->addresses->count() === 2 ? $order->addresses->get(1) : $addressOrder;
+            $tvaRate = ($deliveryAddress->country->tax ?? 0) * 100;
         }
 
         // Produits
-        $positions = [];
-        foreach($order->products as $product) {
-            array_push($positions, [
-                'name' => $product->name,
-                'quantity' => $product->quantity,
-                'tax' => $tax * 100,
-                'total_price_gross' => $product->total_price_gross,
-            ]);
+        $items = [];
+        foreach ($order->products as $product) {
+            $unitPriceHt = $tvaRate > 0
+                ? round($product->total_price_gross / $product->quantity / (1 + $tvaRate / 100), 2)
+                : round($product->total_price_gross / $product->quantity, 2);
+
+            $items[] = [
+                'description'   => $product->name,
+                'quantity'      => $product->quantity,
+                'unit_price_ht' => $unitPriceHt,
+            ];
         }
 
-        // Frais d'expédition
-        if($order->shipping > 0) {
-          array_push($positions, [
-              'name' => 'Frais d\'expédition',
-              'quantity' => 1,
-              'tax' => 0,
-              'total_price_gross' => $order->shipping,
-          ]);
+        // Frais de port
+        if ($order->shipping > 0) {
+            $items[] = [
+                'description'   => "Frais d'expédition",
+                'quantity'      => 1,
+                'unit_price_ht' => round($order->shipping, 2),
+            ];
         }
 
-        $invoice['positions'] = $positions;
+        $invoice = [
+            'client_name'        => $clientName,
+            'client_address'     => $address,
+            'client_postal_code' => $addressOrder->postal,
+            'client_city'        => $addressOrder->city,
+            'payment_method'     => $order->payment_text ?? $order->payment,
+            'tva_rate'           => $tvaRate,
+            'items'              => $items,
+        ];
 
-        // Envoi
         return Http::post(config('invoice.url') . 'invoices.json', [
             'api_token' => config('invoice.token'),
-            'invoice' => $invoice,
+            'invoice'   => $invoice,
         ]);
-
     }
 }

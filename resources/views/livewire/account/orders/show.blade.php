@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Order;
+use App\Services\Invoice as InvoiceService;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 new #[Title('Show order')]
 class extends Component {
@@ -21,14 +23,34 @@ class extends Component {
 
     public function invoice()
     {
-       // Récupération du pdf
-    $url = config('invoice.url') . 'invoices/' .  (string)$this->order->invoice_id . '.pdf?api_token=' . config('invoice.token');
-    $contents = file_get_contents($url);
-    $name = (string)$this->order->invoice_id . '.pdf';
-    Storage::disk('invoices')->put($name, $contents);
+        // Si la facture n'existe pas encore, on la crée
+        if (!$this->order->invoice_id) {
+            $invoiceService = new InvoiceService();
+            $response = $invoiceService->create($this->order, true);
+            if ($response->successful()) {
+                $data = $response->json();
+                $this->order->invoice_id = $data['invoice_id'] ?? null;
+                $this->order->invoice_number = $data['invoice_number'] ?? null;
+                $this->order->save();
+            } else {
+                session()->flash('error', __('Invoice not available.'));
+                return;
+            }
+        }
 
-    // Envoi
-    return response()->download(storage_path('app/invoices/' . $name))->deleteFileAfterSend();
+        // Téléchargement du PDF
+        $url = config('invoice.url') . 'invoices/' . $this->order->invoice_id . '/pdf?api_token=' . config('invoice.token');
+        $response = Http::get($url);
+
+        if (!$response->successful()) {
+            session()->flash('error', __('Invoice not available.'));
+            return;
+        }
+
+        $name = 'facture-' . $this->order->invoice_number . '.pdf';
+        Storage::disk('invoices')->put($name, $response->body());
+
+        return response()->download(storage_path('app/invoices/' . $name))->deleteFileAfterSend();
     }
 
 }; ?>
@@ -46,8 +68,11 @@ class extends Component {
                 <br>
                 <x-alert title="{!! __('You were unable to make your credit card payment.') !!}" description="{{ __('Please contact us.') }}" icon="o-exclamation-triangle" class="alert-warning" />
             @endif
-            @if($order->invoice_id)
+            @if($order->state->slug === 'paiement_ok')
                 <br>
+                @if(session('error'))
+                    <x-alert title="{{ session('error') }}" icon="o-exclamation-triangle" class="alert-warning mb-2" />
+                @endif
                 <x-button label="{{ __('Download invoice') }}" wire:click="invoice" class="btn-outline" spinner />
             @endif
         </x-card>

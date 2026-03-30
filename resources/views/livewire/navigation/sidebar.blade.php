@@ -34,7 +34,7 @@ new class extends Component {
         <!-- Liens principaux -->
         <x-menu-item title="{{ __('Shop') }}" icon="o-home" link="{{ route('home') }}" />
         <x-menu-item title="{{ __('Blog') }}" icon="o-newspaper" link="{{ route('blog.index') }}" />
-        <x-menu-item title="{{ __('Contact') }}" icon="o-envelope" link="{{ route('contact') }}" />
+       
 
         <x-menu-separator />
         <!-- add contact -->

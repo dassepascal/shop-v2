@@ -44,11 +44,11 @@ class extends Component {
                 $payment = new Payment(['payment_id' => $session->payment_intent,]);
                 $this->order->payment_infos()->save($payment);            
                 // Création de la facture
-                $response = $invoice->create($this->order, true);  
+                $response = $invoice->create($this->order, true);
                 if($response->successful()) {
-                    $data = json_decode($response->body());
-                    $this->order->invoice_id = $data->id;
-                    $this->order->invoice_number = $data->number;
+                    $data = $response->json();
+                    $this->order->invoice_id = $data['invoice_id'] ?? null;
+                    $this->order->invoice_number = $data['invoice_number'] ?? null;
                     $this->order->save();
                 }                 
             } else {

@@ -6,39 +6,20 @@ use App\Models\Product;
 new class extends Component {
     public string $group = ''; // Propriété pour l'accordéon
 
-    // Propriétés pour les filtres de recherche
-    public string $searchDiameter = '';
-    public string $searchSkin = '';
-    public string $searchColor = '';
-    public string $searchMaterial = '';
+    // Propriété pour la recherche par mot clé
+    public string $search = '';
 
     public function with(): array
     {
         $query = Product::whereActive(true)->with(['images', 'features']);
 
-        // Appliquer les filtres si les champs ne sont pas vides
-        if ($this->searchDiameter) {
-            $query->whereHas('features', function ($q) {
-                $q->where('name', 'like', '%diamètre%')
-                  ->where('value', 'like', '%' . $this->searchDiameter . '%');
-            });
-        }
-        if ($this->searchSkin) {
-            $query->whereHas('features', function ($q) {
-                $q->where('name', 'like', '%peau%')
-                  ->where('value', 'like', '%' . $this->searchSkin . '%');
-            });
-        }
-        if ($this->searchColor) {
-            $query->whereHas('features', function ($q) {
-                $q->where('name', 'like', '%couleur%')
-                  ->where('value', 'like', '%' . $this->searchColor . '%');
-            });
-        }
-        if ($this->searchMaterial) {
-            $query->whereHas('features', function ($q) {
-                $q->where('name', 'like', '%matière%')
-                  ->where('value', 'like', '%' . $this->searchMaterial . '%');
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                  ->orWhereHas('features', function ($q2) {
+                      $q2->where('value', 'like', '%' . $this->search . '%')
+                         ->orWhere('name', 'like', '%' . $this->search . '%');
+                  });
             });
         }
 
@@ -50,10 +31,7 @@ new class extends Component {
     // Méthode pour réinitialiser les filtres
     public function resetFilters(): void
     {
-        $this->searchDiameter = '';
-        $this->searchSkin = '';
-        $this->searchColor = '';
-        $this->searchMaterial = '';
+        $this->search = '';
     }
 };
 ?>
@@ -66,31 +44,13 @@ new class extends Component {
         {!! $shop->home !!}
     </x-card>
 
-    <!-- Barre de recherche avec filtres horizontaux et bouton Reset aligné -->
+    <!-- Barre de recherche par mot clé -->
     <div class="mt-4 mb-6 flex flex-wrap gap-4 items-end">
         <x-input
-            wire:model.live="searchDiameter"
-            label="{{ __('Diameter') }}"
-            placeholder="{{ __('Filter by diameter') }}"
-            class="flex-1 min-w-[150px]"
-        />
-        <x-input
-            wire:model.live="searchSkin"
-            label="{{ __('Skin') }}"
-            placeholder="{{ __('Filter by skin') }}"
-            class="flex-1 min-w-[150px]"
-        />
-        <x-input
-            wire:model.live="searchColor"
-            label="{{ __('Color') }}"
-            placeholder="{{ __('Filter by color') }}"
-            class="flex-1 min-w-[150px]"
-        />
-        <x-input
-            wire:model.live="searchMaterial"
-            label="{{ __('Material') }}"
-            placeholder="{{ __('Filter by material') }}"
-            class="flex-1 min-w-[150px]"
+            wire:model.live="search"
+            label="{{ __('Search') }}"
+            placeholder="{{ __('Search by keyword...') }}"
+            class="flex-1"
         />
         <x-button wire:click="resetFilters" class="btn-secondary" icon="o-x-mark">{{ __('Reset') }}</x-button>
     </div>
@@ -141,17 +101,4 @@ new class extends Component {
             </x-card>
         @endforeach
     </div>
-    <br>
-    <x-card class="w-full shadow-md shadow-gray-500" shadow separator>
-        <x-accordion wire:model="group" class="shadow-md shadow-gray-500">
-            <x-collapse name="group1">
-                <x-slot:heading>{{ __('General informations') }}</x-slot:heading>
-                <x-slot:content>{!! $shop->home_infos !!}</x-slot:content>
-            </x-collapse>
-            <x-collapse name="group2">
-                <x-slot:heading>{{ __('Shipping charges') }}</x-slot:heading>
-                <x-slot:content>{!! $shop->home_shipping !!}</x-slot:content>
-            </x-collapse>
-        </x-accordion>
-    </x-card>
 </div>

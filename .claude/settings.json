@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan tinker --execute=\":*)",
+      "Read(//home/pascal/invoiceninja/**)",
+      "Bash(docker-compose ps:*)",
+      "Bash(docker-compose exec:*)",
+      "Read(//home/pascal/Documents/informatique/sites/**)",
+      "Bash(composer create-project:*)",
+      "Bash(composer require:*)",
+      "Bash(php artisan:*)"
+    ],
+    "additionalDirectories": [
+      "/home/pascal/Documents/informatique/sites/factures/app/Models",
+      "/home/pascal/Documents/informatique/sites/factures/routes"
+    ]
+  }
+}
