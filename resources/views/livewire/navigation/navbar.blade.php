@@ -67,7 +67,7 @@ new class extends Component {
     ? 'bg-red-300'
     : ($this->isBlogPage()
         ? 'bg-white shadow-sm text-black'
-        : 'bg-cyan-700 text-white')">
+        : 'bg-gradient-to-r from-cyan-600 to-cyan-700 text-white shadow-md')">
     <x-slot:brand>
         <label for="main-drawer" class="mr-3 lg:hidden">
             <x-icon name="o-bars-3" class="cursor-pointer" />
@@ -83,21 +83,21 @@ new class extends Component {
                     <!-- Liens statiques -->
                     <x-menu>
                         <x-menu-item title="{{ __('Articles') }}" link="{{ route('blog.index') }}"
-                            class="btn-outline font-bold border h-12 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                            class="btn-outline rounded-full font-semibold border h-12 flex items-center justify-center transition-colors duration-200 hover:text-gray-700 hover:bg-gray-100" />
                     </x-menu>
                     <x-menu>
                         <x-menu-item title="{{ __('Shop') }}" link="{{ route('home') }}"
-                            class="btn-outline font-bold border h-12 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                            class="btn-outline rounded-full font-semibold border h-12 flex items-center justify-center transition-colors duration-200 hover:text-gray-700 hover:bg-gray-100" />
                     </x-menu>
                     <x-menu>
                         <x-menu-item title="{{ __('Contact') }}" link="{{ route('contact') }}"
-                            class="btn-outline font-bold border h-12 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                            class="btn-outline rounded-full font-semibold border h-12 flex items-center justify-center transition-colors duration-200 hover:text-gray-700 hover:bg-gray-100" />
                     </x-menu>
 
                     <!-- Menus dynamiques -->
 
                     <x-dropdown label="Categories"
-                        class=" btn-outline font-bold border  flex items-center justify-center hover:text-gray-700 hover:bg-gray-100 ">
+                        class="btn-outline rounded-full font-semibold border flex items-center justify-center transition-colors duration-200 hover:text-gray-700 hover:bg-gray-100">
                         <span class="text-white">
                         @foreach ($menus as $menu)
                             @if ($menu->submenus->isNotEmpty())
@@ -120,7 +120,7 @@ new class extends Component {
                         <x-dropdown>
                             <x-slot:trigger>
                                 <x-button label="{{ $user->name }} {{ $user->firstname }}"
-                                    class="btn-ghost h-10 flex items-center justify-center" />
+                                    class="btn-ghost rounded-full h-10 flex items-center justify-center transition-colors duration-200" />
                             </x-slot:trigger>
 
                             <span class="text-white">
@@ -136,7 +136,7 @@ new class extends Component {
                         </x-dropdown>
                     @else
                         <x-button label="{{ __('Login') }}" link="/login"
-                            class="btn-ghost h-10 flex items-center justify-center" />
+                            class="btn-ghost rounded-full h-10 flex items-center justify-center transition-colors duration-200" />
                     @endif
                     <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
                     <livewire:search />
@@ -146,7 +146,7 @@ new class extends Component {
                     <x-dropdown>
                         <x-slot:trigger>
                             <x-button label="{{ __('Cart') }}" icon="o-shopping-cart" badge="{{ $CartItems }}"
-                                badge-classes="badge-ghost" class="btn-ghost" />
+                                badge-classes="badge-ghost" class="btn-ghost rounded-full transition-colors duration-200" />
                         </x-slot:trigger>
                         <div class="p-2 text-black {{ $content->isNotEmpty() ? 'min-w-[300px]' : '' }}">
                             @foreach ($content as $item)
@@ -191,17 +191,17 @@ new class extends Component {
                 <div class="flex items-center space-x-4 justify-start">
                     <x-menu>
                         <x-menu-item title="{{ __('Blog') }}" link="{{ route('blog.index') }}"
-                            class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-white hover:bg-gray-300" />
+                            class="btn-outline rounded-full font-semibold border h-10 flex items-center justify-center transition-colors duration-200 hover:text-white hover:bg-gray-300" />
                     </x-menu>
                     <x-menu>
                         <x-menu-item title="{{ __('Contact') }}" link="{{ route('contact') }}"
-                            class="btn-outline font-bold border h-10 flex items-center justify-center hover:text-gray-700 hover:bg-gray-100" />
+                            class="btn-outline rounded-full font-semibold border h-10 flex items-center justify-center transition-colors duration-200 hover:text-gray-700 hover:bg-gray-100" />
                     </x-menu>
                     @if ($user = auth()->user())
                         <x-dropdown>
                             <x-slot:trigger>
                                 <x-button label="{{ $user->name }} {{ $user->firstname }}"
-                                    class="btn-ghost h-10 flex items-center justify-center" />
+                                    class="btn-ghost rounded-full h-10 flex items-center justify-center transition-colors duration-200" />
                             </x-slot:trigger>
                             <span class="text-white">
                                 @if ($user->isAdmin())
@@ -216,7 +216,7 @@ new class extends Component {
                         </x-dropdown>
                     @else
                         <x-button label="{{ __('Login') }}" link="/login"
-                            class="btn-ghost h-10 flex items-center justify-center" />
+                            class="btn-ghost rounded-full h-10 flex items-center justify-center transition-colors duration-200" />
                     @endif
                     <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
                 </div>
