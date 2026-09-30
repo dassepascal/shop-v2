@@ -41,7 +41,29 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createInvoiceableOrder(array $attributes = []): App\Models\Order
 {
-    // ..
+    $country = App\Models\Country::create(['name' => 'France', 'tax' => 0.2]);
+    foreach ([['En attente', 'attente', 1], ['Payé', 'paye', 5], ['Annulé', 'annule', 11]] as [$name, $slug, $indice]) {
+        App\Models\State::create(['name' => $name, 'slug' => $slug, 'color' => 'blue', 'indice' => $indice]);
+    }
+
+    $order = App\Models\Order::factory()->create(array_merge([
+        'user_id' => App\Models\User::factory()->create()->id,
+        'state_id' => App\Models\State::whereSlug('paye')->first()->id,
+        'payment' => 'carte',
+        'pick' => false,
+        'shipping' => 10,
+        'total' => 120,
+        'invoice_id' => null,
+        'invoice_number' => null,
+    ], $attributes));
+
+    $order->addresses()->create([
+        'civility' => 'M.', 'name' => 'Dupont', 'firstname' => 'Jean', 'address' => '1 rue de la Paix',
+        'postal' => '75001', 'city' => 'Paris', 'phone' => '0102030405', 'country_id' => $country->id,
+    ]);
+    $order->products()->create(['name' => 'Produit test', 'total_price_gross' => 120, 'quantity' => 2]);
+
+    return $order;
 }
