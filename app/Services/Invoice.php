@@ -3,7 +3,11 @@
 namespace App\Services;
 
 use App\Models\Order;
+use GuzzleHttp\Psr7\Response as Psr7Response;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Invoice
 {
@@ -73,9 +77,20 @@ class Invoice
             'items'              => $items,
         ];
 
-        return Http::post(config('invoice.url') . 'invoices.json', [
-            'api_token' => config('invoice.token'),
-            'invoice'   => $invoice,
-        ]);
+        // Sans application de facturation joignable, on renvoie un échec plutôt que de bloquer la commande
+        if (!config('invoice.url')) {
+            return new Response(new Psr7Response(503));
+        }
+
+        try {
+            return Http::post(config('invoice.url') . 'invoices.json', [
+                'api_token' => config('invoice.token'),
+                'invoice'   => $invoice,
+            ]);
+        } catch (ConnectionException $e) {
+            Log::warning('Facturation injoignable : ' . $e->getMessage());
+
+            return new Response(new Psr7Response(503));
+        }
     }
 }
