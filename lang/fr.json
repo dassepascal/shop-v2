@@ -312,6 +312,7 @@
     "Invalid SSL Certificate": "Certificat SSL invalide",
     "Invoice": "Facture",
     "Invoice generated successfully.": "Facture génerée avec succès.",
+    "Unable to generate the invoice, the invoicing service is unavailable.": "Impossible de générer la facture, le service de facturation est indisponible.",
     "It is a professionnal address": "C'est une adresse professionnelle",
     "It will be validate by an administrator before it appears here": "Il sera valide par un administrateur avant qu'il ne soit affiché ici",
     "Item deleted.": "Produit supprimé.",

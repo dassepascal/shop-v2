@@ -48,6 +48,8 @@ class extends Component
             $this->order->invoice_number = $data->number;
             $this->order->save();
             $this->success(__('Invoice generated successfully.'));
+        } else {
+            $this->error(__('Unable to generate the invoice, the invoicing service is unavailable.'));
         }
     }
 
