@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     server: {
         host: 'localhost',
-        port: 5174, // Tu peux changer ce port si besoin
+        port: 5175, // Tu peux changer ce port si besoin
         strictPort: true,
         cors: true,
     },
