@@ -1,7 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+    themes: light, dark, corporate --default;
+}
+
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source inline("bg-red-400 bg-blue-400 bg-green-400 badge-info badge-success badge-error");
+
+/* Mode sombre piloté par la classe posée par <x-theme-toggle> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
 
 .pop-small {
     @apply !p-1 !px-2 text-sm border-info text-center
