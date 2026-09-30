@@ -90,6 +90,8 @@ class DatabaseSeeder extends Seeder
 
         // Mettre à jour l'utilisateur administrateur
         $user = User::find(1);
+        $user->email = 'admin@example.com';
+        $user->password = 'password';
         $user->role = 'admin';
         $user->valid = true;
         $user->save();
